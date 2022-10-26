@@ -21,6 +21,10 @@ module.exports = {
           lighter: '#FF9999',
           darker: '#FF4C4C'
         },
+        yt: {
+          DEFAULT: '#FE0100',
+          darker: '#CB0100',
+        }
       }
     },
   },
