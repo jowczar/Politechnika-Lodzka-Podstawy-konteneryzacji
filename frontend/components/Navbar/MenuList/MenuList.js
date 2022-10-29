@@ -9,7 +9,7 @@ export const MenuList = () => {
     const router = useRouter();
 
     return (
-        <div className="flex flex-row">
+        <div className="flex flex-row gap-1">
             <MenuOption isActive={router.asPath === '/channels'} link="/channels">
                 <TbBrandYoutube size={24} /><span>Channels</span>
             </MenuOption>
