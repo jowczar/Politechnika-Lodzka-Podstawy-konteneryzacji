@@ -25,11 +25,14 @@ export const Button = React.forwardRef(
         data-tip={dataTip}
         onClick={onClick}
         className={clsx(
-          "inline-flex items-center justify-center rounded px-4 py-2.5 font-bold text-lg",
+          "inline-flex items-center justify-center rounded px-4 py-2.5 font-bold text-sm",
           "focus:outline-none focus-visible:ring focus-visible:ring-primary-500",
           "cursor-pointer",
           "transition-all duration-150",
           [
+            variant === 'cta' && [
+              "bg-yt text-white hover:bg-yt-darker active:bg-yt-darker",
+            ],
             variant === "primary" && [
               "bg-primary text-whitey",
               "hover:bg-primary-darker",
