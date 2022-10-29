@@ -24,7 +24,8 @@ module.exports = {
         yt: {
           DEFAULT: '#FE0100',
           darker: '#CB0100',
-        }
+        },
+        reddishWhite: '#FCFAFA'
       }
     },
   },
