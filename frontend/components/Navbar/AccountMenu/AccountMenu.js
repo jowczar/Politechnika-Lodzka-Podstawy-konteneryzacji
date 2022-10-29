@@ -7,7 +7,7 @@ import listenForOutsideClicks from "../../../hooks/OutsideClickHook";
 
 export const AccountMenu = ({ user: { avatar, email }}) => {
     const menuRef = useRef(null);
-    const [showAccountMenu, setShowAccountMenu] = useState(true);
+    const [showAccountMenu, setShowAccountMenu] = useState(false);
     const [listening, setListening] = useState(false);
     const router = useRouter();
 
