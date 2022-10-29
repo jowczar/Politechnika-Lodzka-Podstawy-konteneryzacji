@@ -8,7 +8,7 @@ export default {
 const Template = (args) => <Navbar {...args} />;
 
 export const Menu = Template.bind({});
-Menu.args = { };
+Menu.args = { user: { avatar: "https://i.pravatar.cc/300" } };
 Menu.parameters = {
     nextRouter: {
       path: "/groups",
