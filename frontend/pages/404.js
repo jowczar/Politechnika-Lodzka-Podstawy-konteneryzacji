@@ -7,15 +7,17 @@ const PageNotFound = () =>  {
         <Image 
             src="/not_found.svg" 
             layout='responsive'
-            height={570} 
-            width={860}
+            height={285} 
+            width={430}
             alt="Not found :(" 
             className='mb-20'
             />
-      <h1 className="font-bold text-5xl">Page not found</h1>
-      <Link href="/" className="underline text-2xl hover:text-primary transition-all">Go back to the app</Link>
+      <h1 className="font-bold text-4xl">Page not found</h1>
+      <Link href="/" className="underline text-lg hover:text-primary transition-all">Go back to the app</Link>
     </div>
   );
 }
+
+PageNotFound.layout = 'withoutNavbar';
 
 export default PageNotFound;

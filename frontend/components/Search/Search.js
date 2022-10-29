@@ -40,7 +40,7 @@ export const Search = ({ className }) => {
                 onBlur={() => setIsFocused(false)}
                 onKeyDown={handleKeyDown}
             />
-            <div className={clsx('absolute ease-in-out duration-300 transition top-[105%] w-full rounded-b bg-white text-xs shadow-md', isFocused && "opacity-100", !isFocused && "opacity-0")}>
+            <div className={clsx('absolute z-20 ease-in-out duration-300 transition top-[105%] w-full rounded-b bg-white text-xs shadow-md', isFocused && "opacity-100", !isFocused && "opacity-0 invisible")}>
                 {data.map((element, i) => (
                     <div 
                         key={"result_" + i} 

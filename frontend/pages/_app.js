@@ -1,5 +1,7 @@
 import styles from './globals.css'
 import Head from 'next/head'
+import Navbar from '../components/Navbar';
+import { UserProvider } from '../contexts/UserProvider';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -9,7 +11,10 @@ function MyApp({ Component, pageProps }) {
         <meta name="description" content="Subscription Manager" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Component {...pageProps} />
+      <UserProvider>
+        {Component.layout !== 'withoutNavbar' && <Navbar />}
+        <Component {...pageProps} />
+      </UserProvider>
     </>
   )
 }
