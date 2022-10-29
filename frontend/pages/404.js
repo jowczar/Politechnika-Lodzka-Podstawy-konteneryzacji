@@ -18,4 +18,6 @@ const PageNotFound = () =>  {
   );
 }
 
+PageNotFound.layout = 'withoutNavbar';
+
 export default PageNotFound;

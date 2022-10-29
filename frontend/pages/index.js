@@ -1,14 +1,9 @@
 import Button from '../components/Button'
 import Image from 'next/image';
-import { useRouter } from 'next/router'
+import { useUser } from '../contexts/UserProvider';
 
-export default function Home() {
-  const router = useRouter();
-
-  const login = () => {
-    console.log('🤘 TODO: login here');
-    router.push('/groups');
-  }
+const LandingPage = () => {
+  const { login } = useUser();
 
   return (
     <div className="flex flex-col gap-3 items-center justify-center lg:h-screen mt-20 lg:mt-0">
@@ -33,3 +28,7 @@ export default function Home() {
     </div>
   )
 }
+
+LandingPage.layout = 'withoutNavbar';
+
+export default LandingPage;
