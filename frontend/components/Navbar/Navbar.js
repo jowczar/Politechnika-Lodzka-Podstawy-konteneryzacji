@@ -4,10 +4,10 @@ import Search from "../Search";
 
 export const Navbar = ({ user }) => {
     return (
-        <div className="flex flex-row w-full items-center bg-reddishWhite py-3 px-5 drop-shadow select-none">
+        <div className="flex flex-col gap-2 md:gap-0 md:flex-row w-full items-center bg-reddishWhite py-3 px-5 drop-shadow select-none">
             <MenuList />
             <div className="grow flex justify-center">
-                <Search className="w-[50%]"/>
+                <Search className="lg:w-[50%]"/>
             </div>
             <AccountMenu user={user} />
         </div>
