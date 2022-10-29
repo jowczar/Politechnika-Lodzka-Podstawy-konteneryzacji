@@ -4,12 +4,13 @@ import { MdLogout } from 'react-icons/md'
 import { useRouter } from "next/router";
 import clsx from 'clsx'
 import listenForOutsideClicks from "../../../hooks/OutsideClickHook";
+import { useUser } from "../../../contexts/UserProvider";
 
-export const AccountMenu = ({ user: { avatar, email }}) => {
+export const AccountMenu = () => {
+    const { email, avatar, logout } = useUser();
     const menuRef = useRef(null);
     const [showAccountMenu, setShowAccountMenu] = useState(false);
     const [listening, setListening] = useState(false);
-    const router = useRouter();
 
     useEffect(listenForOutsideClicks(
         listening,
@@ -21,11 +22,6 @@ export const AccountMenu = ({ user: { avatar, email }}) => {
     const handleAccountMenu = () => {
         setShowAccountMenu(!showAccountMenu);
     };
-
-    const logout = () => {
-        console.log('👋 TODO: logout here');
-        router.push('/');
-    }
 
     return (
         <div className="flex flex-row gap-4 items-center">
