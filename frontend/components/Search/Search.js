@@ -9,13 +9,16 @@ export const Search = ({ className }) => {
     const [data, setData] = useState([
         {"id": 1, "name": "Uwaga! Naukowy bełkot"},
         {"id": 2, "name": "TODO: change me"},
-        {"id": 3, "name": "Very long youtube channel name"},
+        {"id": 3, "name": "i-dont-exist"},
     ]);
     const [search, setSearch] = useState("");
     const [isFocused, setIsFocused] = useState(false);
 
-    const onChannelClick = () => {
-        console.log('🫡 TODO: redirect to channel page');
+    const onChannelClick = (channel) => {
+        router.push({
+            pathname: '/channel/[name]',
+            query: { name: channel.name },
+        });
     }
 
     const handleKeyDown = (event) => {
@@ -45,7 +48,7 @@ export const Search = ({ className }) => {
                     <div 
                         key={"result_" + i} 
                         className='px-4 py-2 hover:bg-primary-lighter hover:cursor-pointer hover:text-white transition-all last:rounded-b'
-                        onClick={onChannelClick}
+                        onClick={() => onChannelClick(element)}
                     >
                             {element.name}
                     </div>
