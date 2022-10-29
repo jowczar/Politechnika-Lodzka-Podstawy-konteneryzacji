@@ -5,9 +5,15 @@ import { useRouter } from "next/router";
 export const MenuOption = ({ isActive, link = '#', children }) => {
     const router = useRouter();
 
+    const onClick = (e) => {
+        e.preventDefault();
+        router.push(link);
+    }
+
     return (
-        <div 
-            onClick={() => router.push(link)}
+        <a 
+            href={link}
+            onClick={onClick}
             className={clsx(
                 "flex flex-row gap-2 items-center text-xs transient-colors duration-300",
                 "py-2 px-3 rounded w-fit hover:cursor-pointer",
@@ -16,7 +22,7 @@ export const MenuOption = ({ isActive, link = '#', children }) => {
             )}
         >
             {children}
-        </div>
+        </a>
     )
 }
 
