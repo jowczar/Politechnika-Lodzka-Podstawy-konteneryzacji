@@ -16,6 +16,7 @@ export const UserProvider = ({
 
     const login = () => {
         // TODO: login here and set email and avatar (& later token)
+        // save token as cookie / local storage and read in on page refresh
         console.log('🤘 TODO: login here');
 
         setEmail('example@youtube.com');
