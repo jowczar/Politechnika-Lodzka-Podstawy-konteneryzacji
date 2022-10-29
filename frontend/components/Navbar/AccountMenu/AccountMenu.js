@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Avatar from "../../Avatar";
 import { MdLogout } from 'react-icons/md'
 import { useRouter } from "next/router";
+import clsx from 'clsx'
+import listenForOutsideClicks from "../../../hooks/OutsideClickHook";
 
 export const AccountMenu = ({ user: { avatar, email }}) => {
-    const [showAccountMenu, setShowAccountMenu] = useState(false);
+    const menuRef = useRef(null);
+    const [showAccountMenu, setShowAccountMenu] = useState(true);
+    const [listening, setListening] = useState(false);
     const router = useRouter();
+
+    useEffect(listenForOutsideClicks(
+        listening,
+        setListening,
+        menuRef,
+        setShowAccountMenu,
+    ));
 
     const handleAccountMenu = () => {
         setShowAccountMenu(!showAccountMenu);
@@ -17,9 +28,14 @@ export const AccountMenu = ({ user: { avatar, email }}) => {
     }
 
     return (
-        <div className="h-9 w-9 relative">
+        <div className="h-9 w-9 relative" ref={menuRef}>
             <Avatar onClick={handleAccountMenu} link={avatar} className="hover:cursor-pointer hover:scale-110 duration-700" />
-            <div style={{ display: showAccountMenu ? 'block' : 'none' }} className="absolute py-1 rounded -translate-x-full bg-white shadow-md text-sm flex flex-col gap-4">
+            <div className={clsx(
+                "absolute top-[110%] right-0 py-1 rounded bg-white shadow-md text-sm flex flex-col gap-4",
+                "ease-in-out duration-300 transition",
+                showAccountMenu && "opacity-100", 
+                !showAccountMenu && "opacity-0"
+            )}>
                 <div className="px-4 py-2 flex flex-col">
                     Signed in as: 
                     <div className="font-bold whitespace-nowrap">{email}</div>

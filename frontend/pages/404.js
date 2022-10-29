@@ -13,7 +13,7 @@ const PageNotFound = () =>  {
             className='mb-20'
             />
       <h1 className="font-bold text-4xl">Page not found</h1>
-      <Link href="/" className="underline text-xl hover:text-primary transition-all">Go back to the app</Link>
+      <Link href="/" className="underline text-lg hover:text-primary transition-all">Go back to the app</Link>
     </div>
   );
 }
