@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import { useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { TfiPlus } from 'react-icons/tfi';
+import { ChromePicker } from 'react-color';
 
 const Channel = ({ channel: { avatar, name }, onDelete }) => {
     return (
@@ -37,6 +38,17 @@ export const GroupModal = ({ setOpen = () => {}}) => {
             avatar: 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj',
         }
     ]);
+    const [colors, setColors] = useState([
+        '#19B929',
+        '#4219B9',
+        '#FFBB55',
+        '#D92828',
+        '#27A3E9',
+    ]);
+    const [selectedColor, setSelectedColor] = useState('#19B929');
+    const [showPicker, setShowPicker] = useState(false);
+
+    const handleShowPicker = () => setShowPicker(!showPicker);
 
     const deleteChannel = (id) => {
         setChannels(channels.filter(channel => channel.id !== id));
@@ -67,6 +79,27 @@ export const GroupModal = ({ setOpen = () => {}}) => {
                         
                         <div>
                             <h2 className='font-bold text-base mb-2'>Color label</h2>
+                            <div className='flex flex-row gap-2.5'>
+                                {colors.map((color, i) => 
+                                    <div 
+                                        key={"color_" + i} 
+                                        className={clsx(
+                                            `w-9 h-9 rounded cursor-pointer bg-[${color}] transition-all duration-300`,
+                                            selectedColor == color && 'ring-4 ring-primary'
+                                        )} 
+                                        onClick={() => setSelectedColor(color)}>
+                                    </div>
+                                )}
+                                <div type="color" className={clsx(
+                                    'flex items-center justify-center w-9 h-9 rounded cursor-pointer border border-dashed transition-all duration-150 text-gray-300',
+                                    'hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500',
+                                )}
+                                    onClick={handleShowPicker}
+                                >
+                                    <TfiPlus size={16} />
+                                </div>
+                                {showPicker && <ChromePicker color={selectedColor} onChangeComplete={(color) => setSelectedColor(color.hex)} />}
+                            </div>
                         </div>
 
                         <div class="sm:flex sm:flex-row-reverse sm:px-6">
