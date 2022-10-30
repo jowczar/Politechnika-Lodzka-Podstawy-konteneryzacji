@@ -26,13 +26,13 @@ export const AccountMenu = () => {
     return (
         <div className="flex flex-row gap-4 items-center">
             <span className="text-sm md:hidden">{email}</span>
-            <div className="h-9 w-9 relative" ref={menuRef}>
+            <div className="h-9 w-9 relative z-50" ref={menuRef}>
                 <Avatar onClick={handleAccountMenu} link={avatar} className="hover:cursor-pointer hover:scale-110 duration-700" />
                 <div className={clsx(
                     "absolute top-[110%] right-0 py-1 rounded bg-white shadow-md text-sm flex flex-col gap-4",
                     "ease-in-out duration-300 transition",
-                    showAccountMenu && "opacity-100", 
-                    !showAccountMenu && "opacity-0"
+                    showAccountMenu && "opacity-100 visible", 
+                    !showAccountMenu && "opacity-0 invisible"
                 )}>
                     <div className="px-4 py-2 flex flex-col">
                         Signed in as: 
