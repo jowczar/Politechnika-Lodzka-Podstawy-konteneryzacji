@@ -1,28 +1,4 @@
-import { differenceInMinutes, format } from 'date-fns';
-
-const getTimeComment = (date) => {
-    const minutes = differenceInMinutes(new Date(), date);
-
-    if (minutes < 1) {
-        return 'now';
-    }
-
-    if (minutes < 60) {
-        return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-    }
-
-    if (minutes < 24*60) {
-        const hours = Math.floor(minutes/60);
-        return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-    }
-
-    if (minutes < 24*60*7) {
-        const days = Math.floor(minutes/(60*24));
-        return `${days} day${days > 1 ? 's' : ''} ago`;
-    }
-
-    return format(date, 'dd.MM.yyyy'); 
-}
+import { getTimeComment } from './VideoCard.helper'
 
 export const VideoCard = ({ video: { thumbnail, title, duration, uploadTime, channelName, channelAvatar, isWatched, isHidden }, className }) => {
     return (
