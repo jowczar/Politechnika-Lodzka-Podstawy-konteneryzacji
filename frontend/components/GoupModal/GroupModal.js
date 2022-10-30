@@ -18,6 +18,7 @@ const Channel = ({ channel: { avatar, name }, onDelete }) => {
 
 export const GroupModal = ({ setOpen = () => {}}) => {
     // TODO: get actual data from backend API
+    const [name, setName] = useState('Biologia 🌳');
     const [channels, setChannels] = useState([
         {
             id: 1,
@@ -73,8 +74,8 @@ export const GroupModal = ({ setOpen = () => {}}) => {
             <div class="fixed inset-0 z-10 overflow-y-auto">
                 <div class="flex min-h-full justify-center text-center items-center">
                     <div class="relative px-8 py-5 text-left transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:w-full sm:max-w-lg flex flex-col gap-8">
-                        <h1>Biologia 🌳</h1>
-
+                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} className='font-bold text-4xl leading-relaxed underline decoration-dashed decoration-gray-300 decoration-1 underline-offset-8' />
+	
                         <div>
                             <h2 className='font-bold text-base mb-2'>Channels</h2>
                             <div className='flex flex-col gap-1'>
@@ -114,7 +115,7 @@ export const GroupModal = ({ setOpen = () => {}}) => {
                             </div>
                         </div>
 
-                        <div class="flex flex-row gap-4">
+                        <div class="flex flex-col sm:flex-row gap-2 sm:gap-4">
                             <Button variant='secondary' onClick={() => setOpen(false)}><IoMdClose size={16} /> Cancel</Button>
                             <Button variant='primary' size='full' isLoading={isLoading} disabled={isLoading} onClick={submit}><MdOutlineDone size={16} /> Save group</Button>
                         </div>
