@@ -12,7 +12,7 @@ export const VideoCard = ({ video: { thumbnail, title, duration, uploadTime, cha
     const markUndone = () => { console.log('TODO: mark as undone'); } 
 
     return (
-        <div className={`bg-white w-fit rounded ${className}`}>
+        <div className={`bg-white w-fit rounded drop-shadow-md ${className}`}>
             <div className={'relative transition-all'}>
                 <img src={thumbnail} alt="thumbnail" className={clsx("rounded-t h-[200px] w-[355px]", isWatched && "opacity-50")} />
                 <h5 className='absolute rounded bottom-1 right-1 font-bold text-[8px] text-white bg-black py-px px-1'>{duration}</h5>
