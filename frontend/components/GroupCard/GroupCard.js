@@ -20,7 +20,7 @@ export const GroupCard = ({ id, name, lastUpdate, isSelected, newContent }) => {
         >
             <div className='text-sm font-bold flex flex-row gap-0.5'>
                 <span>{name}</span>
-                {newContent && <div className='w-1.5 h-1.5 bg-primary-lighter rounded-full'></div>}
+                {newContent && <div className='w-1.5 h-1.5 bg-primary-lighter rounded-full group-hover:bg-white'></div>}
             </div>
             <div className='flex flex-row items-center'>
                 <div className='font-light text-xs text-gray-500 grow group-hover:text-white'>{lastUpdate ? getTimeComment(lastUpdate) : 'no content'}</div>
