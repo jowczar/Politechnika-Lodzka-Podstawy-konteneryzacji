@@ -2,7 +2,9 @@ import clsx from 'clsx'
 import { useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { TfiPlus } from 'react-icons/tfi';
+import { MdOutlineDone } from 'react-icons/md';
 import { ChromePicker } from 'react-color';
+import Button from '../Button';
 
 const Channel = ({ channel: { avatar, name }, onDelete }) => {
     return (
@@ -47,11 +49,21 @@ export const GroupModal = ({ setOpen = () => {}}) => {
     ]);
     const [selectedColor, setSelectedColor] = useState('#19B929');
     const [showPicker, setShowPicker] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleShowPicker = () => setShowPicker(!showPicker);
 
     const deleteChannel = (id) => {
         setChannels(channels.filter(channel => channel.id !== id));
+    }
+
+    // TOOD: backend api request here
+    const submit = () => {
+        setIsLoading(true);
+        setTimeout(() => {
+            setIsLoading(false);
+            setOpen(false);
+        }, 1000);
     }
 
     return (
@@ -102,9 +114,9 @@ export const GroupModal = ({ setOpen = () => {}}) => {
                             </div>
                         </div>
 
-                        <div class="sm:flex sm:flex-row-reverse sm:px-6">
-                            <button type="button" class="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">Deactivate</button>
-                            <button type="button" onClick={() => setOpen(false)} class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Cancel</button>
+                        <div class="flex flex-row gap-4">
+                            <Button variant='secondary' onClick={() => setOpen(false)}><IoMdClose size={16} /> Cancel</Button>
+                            <Button variant='primary' size='full' isLoading={isLoading} disabled={isLoading} onClick={submit}><MdOutlineDone size={16} /> Save group</Button>
                         </div>
                     </div>
                 </div>
