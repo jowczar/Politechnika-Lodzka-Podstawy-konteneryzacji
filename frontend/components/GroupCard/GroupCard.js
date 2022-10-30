@@ -34,6 +34,7 @@ export const GroupCard = ({ id, name, lastUpdate, isSelected, newContent }) => {
                 isSelected && "bg-primary-lighter text-white",
             )}
             onClick={markSelected}
+            ref={menuRef}
         >
             <div className='text-sm font-bold flex flex-row gap-0.5'>
                 <span>{name}</span>
