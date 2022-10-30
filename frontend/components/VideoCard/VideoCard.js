@@ -3,7 +3,7 @@ import { MdOutlineDone, MdOutlineRemoveDone } from 'react-icons/md';
 import { IoMdCloseCircle, IoMdRefreshCircle } from 'react-icons/io';
 import clsx from 'clsx'
 
-export const VideoCard = ({ video: { thumbnail, link, title, duration, uploadTime, channelName, channelAvatar, isWatched, isHidden }, className }) => {
+export const VideoCard = ({ video: { thumbnail, link, title, duration, uploadTime, channelName, channelAvatar, isWatched, isHidden }, className, hideInteractions = false }) => {
 
     const markDone = () => { console.log('TODO: mark as done'); } 
 
@@ -33,7 +33,7 @@ export const VideoCard = ({ video: { thumbnail, link, title, duration, uploadTim
             </div>
             <div className="flex flex-row h-11 px-5 py-4 bg-grey rounded-b justify-between items-center">
                 <h5 className="text-xs text-gray-500">{getTimeComment(uploadTime)}</h5>
-                <div className='flex flex-row gap-2'>
+                {!hideInteractions && <div className='flex flex-row gap-2'>
                     {!isWatched && !isHidden && (
                         <>
                             <MdOutlineDone onClick={markDone} className='hover:cursor-pointer hover:scale-110 duration-700 hover:text-green-500' size={24} />
@@ -42,7 +42,7 @@ export const VideoCard = ({ video: { thumbnail, link, title, duration, uploadTim
                     )}
                     {isWatched && !isHidden && <MdOutlineRemoveDone onClick={markUndone} className='hover:cursor-pointer hover:scale-110 duration-700 hover:text-gray-500' size={24} />}
                     {isHidden && <IoMdRefreshCircle onClick={unHide} className='hover:cursor-pointer hover:scale-110 duration-700 hover:text-gray-500' size={24} />}
-                </div>
+                </div>}
             </div>
         </div>
     )
