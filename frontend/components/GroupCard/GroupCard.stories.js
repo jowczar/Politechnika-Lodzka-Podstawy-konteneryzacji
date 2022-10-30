@@ -6,7 +6,7 @@ export default {
   component: GroupCard,
 };
 
-const Template = (args) => <GroupCard {...args} />;
+const Template = (args) => <div className="flex w-full items-center justify-center"><GroupCard {...args} /></div>;
 
 export const AllSeenGroup = Template.bind({});
 AllSeenGroup.args = { id: 1, name: 'Biologia 🌳', lastUpdate: subMinutes(new Date(), 60*5), newContent: false, isSelected: false }
