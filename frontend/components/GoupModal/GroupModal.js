@@ -96,8 +96,9 @@ export const GroupModal = ({ setOpen = () => {}}) => {
                                 {colors.map((color, i) => 
                                     <div 
                                         key={"color_" + i} 
+                                        style={{ background: color }}
                                         className={clsx(
-                                            `w-9 h-9 rounded cursor-pointer bg-[${color}] transition-all duration-300`,
+                                            `w-9 h-9 rounded cursor-pointer transition-all duration-300`,
                                             selectedColor == color && 'ring-4 ring-primary'
                                         )} 
                                         onClick={() => setSelectedColor(color)}>
