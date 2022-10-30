@@ -31,9 +31,23 @@ module.exports = {
     },
   },
   plugins: [
-    function ({ addVariant }) {
+    function ({ addVariant, addUtilities }) {
       addVariant('child', '& > *');
       addVariant('child-hover', '& > *:hover');
+      addUtilities({
+        '.no-scrollbar': {
+          /* IE and Edge */
+          '-ms-overflow-style': 'none',
+
+          /* Firefox */
+          'scrollbar-width': 'none',
+
+          /* Safari and Chrome */
+          '&::-webkit-scrollbar': {
+            display: 'none'
+          }
+        }
+      });
     }
   ],
 }
