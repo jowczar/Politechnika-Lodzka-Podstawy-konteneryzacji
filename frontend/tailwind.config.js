@@ -25,7 +25,8 @@ module.exports = {
           DEFAULT: '#FE0100',
           darker: '#CB0100',
         },
-        reddishWhite: '#FCFAFA'
+        reddishWhite: '#FCFAFA',
+        grey: '#F9F9F9'
       }
     },
   },
