@@ -31,8 +31,8 @@ export const AccountMenu = () => {
                 <div className={clsx(
                     "absolute top-[110%] right-0 py-1 rounded bg-white shadow-md text-sm flex flex-col gap-4",
                     "ease-in-out duration-300 transition",
-                    showAccountMenu && "opacity-100 visible", 
-                    !showAccountMenu && "opacity-0 invisible"
+                    showAccountMenu && "opacity-100 block", 
+                    !showAccountMenu && "opacity-0 hidden"
                 )}>
                     <div className="px-4 py-2 flex flex-col">
                         Signed in as: 
