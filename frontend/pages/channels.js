@@ -8,6 +8,7 @@ const Channels = () => {
     {
       id: 1,
       name: 'Uwaga! Naukowy bełkot',
+      link: 'https://www.youtube.com/c/UwagaNaukowyBe%C5%82kot',
       avatar: 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
       videos: [
         {
@@ -65,6 +66,7 @@ const Channels = () => {
     {
       id: 2,
       name: 'Mateusz Socha',
+      link: 'https://www.youtube.com/user/Zoohan17',
       avatar: 'https://yt3.ggpht.com/ytc/AMLnZu-ORundEEZh9tQovfx4jRoxmYdR7AxHQ3iK5FQtfw=s88-c-k-c0x00ffffff-no-rj', 
       videos: []
     }
@@ -76,8 +78,14 @@ const Channels = () => {
       {channels.map((channel) => 
         <div key={"channel_" + channel.id}>
           <div className="flex flex-row gap-2 items-center mx-10 first:mt-10">
-            <img className='w-7	h-7 rounded-full' src={channel.avatar} alt={'avatar'} />
-            <h2 className="font-bold text-2xl	">{channel.name}</h2>
+            <a href={channel.link} target="_blank" rel="noreferrer" className="hover:scale-110 duration-700">
+              <img className='w-7	h-7 rounded-full' src={channel.avatar} alt={'avatar'} />
+            </a>
+            <a href={channel.link} target="_blank" rel="noreferrer" className="hover:underline">
+              <h2 className="font-bold text-2xl	">
+                {channel.name}
+              </h2>
+            </a>
             {channel.videos.length === 0 && <div className="font-light text-2xl text-gray-400"> • you are all caught up ✨</div>}
           </div>
           <div className="flex flex-row gap-10 overflow-auto no-scrollbar py-2.5 px-10">
