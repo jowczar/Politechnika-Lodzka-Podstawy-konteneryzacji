@@ -25,24 +25,24 @@ export const Button = React.forwardRef(
         data-tip={dataTip}
         onClick={onClick}
         className={clsx(
-          "inline-flex items-center justify-center rounded px-4 py-2.5 font-bold text-sm",
+          "inline-flex gap-2.5 items-center justify-center rounded px-4 py-2.5 text-sm",
           "focus:outline-none focus-visible:ring focus-visible:ring-primary-500",
           "cursor-pointer",
-          "transition-all duration-150",
+          "transition-all duration-300",
           [
             variant === 'cta' && [
               "bg-yt text-white hover:bg-yt-darker active:bg-yt-darker",
             ],
             variant === "primary" && [
-              "bg-primary text-whitey",
+              "bg-primary text-white",
               "hover:bg-primary-darker",
               "active:bg-primary-darker",
               "disabled:bg-primary-lighter",
             ],
             variant === "secondary" && [
-              "bg-darky text-whitey",
-              "hover:bg-darky-darker",
-              "active:bg-darky-darker",
+              "bg-darky text-black border border-gray-300",
+              "hover:bg-gray-50 hover:border-gray-500",
+              "active:bg-gray-50",
               "disabled:bg-darky-lighter",
             ],
           ],
@@ -59,7 +59,7 @@ export const Button = React.forwardRef(
         {isLoading && (
           <div
             className={
-              "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-whitey"
+              "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white"
             }
           >
             <ImSpinner2 className="animate-spin" />
