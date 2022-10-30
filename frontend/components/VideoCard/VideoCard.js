@@ -3,7 +3,7 @@ import { MdOutlineDone, MdOutlineRemoveDone } from 'react-icons/md';
 import { IoMdCloseCircle, IoMdRefreshCircle } from 'react-icons/io';
 import clsx from 'clsx'
 
-export const VideoCard = ({ video: { thumbnail, title, duration, uploadTime, channelName, channelAvatar, isWatched, isHidden }, className }) => {
+export const VideoCard = ({ video: { thumbnail, link, title, duration, uploadTime, channelName, channelAvatar, isWatched, isHidden }, className }) => {
 
     const markDone = () => { console.log('TODO: mark as done'); } 
 
@@ -16,7 +16,7 @@ export const VideoCard = ({ video: { thumbnail, title, duration, uploadTime, cha
     return (
         <div className={`bg-white w-fit rounded drop-shadow-md ${className}`}>
             <div className={'relative transition-all'}>
-                <img src={thumbnail} alt="thumbnail" className={clsx("rounded-t h-[200px] w-[355px]", (isWatched || isHidden) && "opacity-50")} />
+                <a href={link} target="_blank" rel="noreferrer"><img src={thumbnail} alt="thumbnail" className={clsx("rounded-t cursor-pointer h-[200px] w-[355px]", (isWatched || isHidden) && "opacity-50")} /></a>
                 <h5 className='absolute rounded bottom-1 right-1 font-bold text-[8px] text-white bg-black py-px px-1'>{duration}</h5>
                 {isWatched && (
                     <div className='absolute opacity-100 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-green-600 rounded-full p-4'>
@@ -27,7 +27,7 @@ export const VideoCard = ({ video: { thumbnail, title, duration, uploadTime, cha
             <div className='flex flex-row px-5 py-4 gap-3'>
                 <img src={channelAvatar} alt="channel avatar" className="h-9 w-9 rounded-full" />
                 <div className='flex flex-col gap-1'>
-                    <h3 className="font-bold text-xs">{title}</h3>
+                    <a href={link} target="_blank" rel="noreferrer"><h3 className="font-bold text-xs hover:underline">{title}</h3></a>
                     <h4 className="text-xs text-gray-600">{channelName}</h4>
                 </div>
             </div>

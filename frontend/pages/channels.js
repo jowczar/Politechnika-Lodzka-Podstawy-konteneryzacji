@@ -12,6 +12,7 @@ const Channels = () => {
       avatar: 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
       videos: [
         {
+          link: 'https://youtu.be/VaZU37y2T_Q',
           thumbnail: 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
           title: 'Dlaczego liście tak robią?', 
           duration: '18:33', 
@@ -22,6 +23,7 @@ const Channels = () => {
           isHidden: false 
         },
         {
+          link: 'https://youtu.be/VaZU37y2T_Q',
           thumbnail: 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
           title: 'Dlaczego liście tak robią?', 
           duration: '18:33', 
@@ -32,6 +34,7 @@ const Channels = () => {
           isHidden: false 
         },
         {
+          link: 'https://youtu.be/VaZU37y2T_Q',
           thumbnail: 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
           title: 'Dlaczego liście tak robią?', 
           duration: '18:33', 
@@ -42,6 +45,7 @@ const Channels = () => {
           isHidden: false 
         },
         {
+          link: 'https://youtu.be/VaZU37y2T_Q',
           thumbnail: 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
           title: 'Dlaczego liście tak robią?', 
           duration: '18:33', 
@@ -52,6 +56,7 @@ const Channels = () => {
           isHidden: false 
         },
         {
+          link: 'https://youtu.be/VaZU37y2T_Q',
           thumbnail: 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
           title: 'Dlaczego liście tak robią?', 
           duration: '18:33', 

@@ -11,6 +11,7 @@ const Template = (args) => <VideoCard {...args} />;
 export const VideoNotWatched = Template.bind({});
 VideoNotWatched.args = { 
     video: { 
+        link: 'https://youtu.be/VaZU37y2T_Q',
         thumbnail: 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
         title: 'Dlaczego liście tak robią?', 
         duration: '18:33', 
@@ -25,6 +26,7 @@ VideoNotWatched.args = {
 export const VideoWatched = Template.bind({});
 VideoWatched.args = { 
     video: { 
+        link: 'https://youtu.be/VaZU37y2T_Q',
         thumbnail: 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
         title: 'Dlaczego liście tak robią?', 
         duration: '18:33', 
@@ -39,6 +41,7 @@ VideoWatched.args = {
 export const VideoHidden = Template.bind({});
 VideoHidden.args = { 
     video: { 
+        link: 'https://youtu.be/VaZU37y2T_Q',
         thumbnail: 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
         title: 'Dlaczego liście tak robią?', 
         duration: '18:33', 
