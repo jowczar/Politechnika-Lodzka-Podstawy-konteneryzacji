@@ -1,41 +1,46 @@
 import clsx from 'clsx'
+import { useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { TfiPlus } from 'react-icons/tfi';
 
-const Channel = ({ channel: { avatar, name, id } }) => {
+const Channel = ({ channel: { avatar, name }, onDelete }) => {
     return (
         <div className='flex flex-row px-3 py-4 rounded items-center gap-5 bg-grey'>
             <img className='rounded-full w-6 h-6' src={avatar} alt={'avatar'} />
             <h3 className='font-bold text-xs grow'>{name}</h3>
-            <IoMdClose size={16} className='cursor-pointer hover:scale-110' />
+            <IoMdClose size={16} className='cursor-pointer hover:scale-110' onClick={onDelete} />
         </div>
     );
 }
 
 export const GroupModal = ({ setOpen = () => {}}) => {
     // TODO: get actual data from backend API
-    const channels = [
+    const [channels, setChannels] = useState([
         {
             id: 1,
             name: 'Uwaga! Naukowy bełkot',
             avatar: 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj',
         },
         {
-            id: 1,
+            id: 2,
             name: 'Uwaga! Naukowy bełkot',
             avatar: 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj',
         },
         {
-            id: 1,
+            id: 3,
             name: 'Uwaga! Naukowy bełkot',
             avatar: 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj',
         },
         {
-            id: 1,
+            id: 4,
             name: 'Uwaga! Naukowy bełkot',
             avatar: 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj',
         }
-    ]
+    ]);
+
+    const deleteChannel = (id) => {
+        setChannels(channels.filter(channel => channel.id !== id));
+    }
 
     return (
         <div class="relative z-10" aria-labelledby="modal" role="dialog" aria-modal="true">
@@ -49,7 +54,7 @@ export const GroupModal = ({ setOpen = () => {}}) => {
                         <div>
                             <h2 className='font-bold text-base mb-2'>Channels</h2>
                             <div className='flex flex-col gap-1'>
-                                {channels.map((channel, i) => <Channel key={"channel_" + i} channel={channel} />)}
+                                {channels.map((channel, i) => <Channel key={"channel_" + i} channel={channel} onDelete={() => deleteChannel(channel.id)} />)}
                                 <div className={clsx(
                                     'flex flex-row gap-5 px-3 py-4 rounded items-center text-gray-300 border border-dashed cursor-pointer transition-all duration-150',
                                     'hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500'
