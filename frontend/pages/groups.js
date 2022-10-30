@@ -2,9 +2,11 @@ import { useState } from "react";
 import { subMinutes } from "date-fns";
 import VideoCard from "../components/VideoCard";
 import FilterCard from '../components/FilterCard';
+import GroupCard from '../components/GroupCard';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
 import { BiHide } from 'react-icons/bi';
 import { MdLabel } from 'react-icons/md';
+import clsx from 'clsx';
 
 const Groups = () => {
   // TODO: fetch groups from backend
@@ -69,7 +71,9 @@ const Groups = () => {
           isWatched: false, 
           isHidden: false 
         }
-      ]
+      ],
+      newContent: true,
+      lastUpdate: new Date(),
     },
     {
       id: 2,
@@ -87,14 +91,18 @@ const Groups = () => {
           isWatched: false, 
           isHidden: false 
         }
-      ]
+      ],
+      newContent: false,
+      lastUpdate: subMinutes(new Date(), 20),
     },
     {
       id: 2,
       name: 'Muzyka 🤘',
       color: '#FFBB55',
-      videos: []
-    }
+      videos: [],
+      newContent: false,
+      lastUpdate: null,
+    },
   ]);
   const [filters, setFilters] = useState({
     isWatched: false,
@@ -104,9 +112,29 @@ const Groups = () => {
 
   return (
     <>
-      <div className="flex flex-row gap-4 w-full px-10 py-4 justify-end">
-        <FilterCard text='Show watched' icon={<IoIosCheckmarkCircle size={28} />} isActive={filters.isWatched} onClick={(value) => setFilters({ ...filters, isWatched: value})} />
-        <FilterCard text='Show hidden' icon={<BiHide size={24} />} isActive={filters.isHidden} onClick={(value) => setFilters({ ...filters, isHidden: value})} />
+      <div className="flex flex-row">
+        <div className="flex flex-row gap-4 w-full px-10 py-4 justify-end grow overflow-auto items-center">
+          {groups.map((group, i) => 
+              <GroupCard 
+                  key={"group_" + i} 
+                  name={group.name} 
+                  lastUpdate={group.lastUpdate} 
+                  isSelected={false} 
+                  newContent={group.newContent} 
+                  className={clsx(
+                    'relative',
+                    'last:after:absolute last:after:right-[-1rem] last:after:border-r last:after:border-dashed last:after:block last:after:w-2 last:after:h-8',
+                    'first:after:absolute first:after:left-[-1.5rem] first:after:border-r first:after:border-dashed first:after:block first:after:w-2 first:after:h-8',
+                    'last:after:border-gray-300',
+                    'first:after:border-gray-300',
+                  )}
+              />
+          )}
+        </div>
+        <div className="flex flex-row gap-4 w-fit px-10 py-4 justify-end grow-0">
+          <FilterCard text='Show watched' icon={<IoIosCheckmarkCircle size={28} />} isActive={filters.isWatched} onClick={(value) => setFilters({ ...filters, isWatched: value})} />
+          <FilterCard text='Show hidden' icon={<BiHide size={24} />} isActive={filters.isHidden} onClick={(value) => setFilters({ ...filters, isHidden: value})} />
+        </div>
       </div>
       {groups.map((group) => 
         <div key={"group_" + group.id} className='mt-4 mb-8'>

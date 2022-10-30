@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import listenForOutsideClicks from '../../hooks/OutsideClickHook';
 import { MdEdit, MdDelete } from 'react-icons/md';
 
-export const GroupCard = ({ id, name, lastUpdate, isSelected, newContent }) => {
+export const GroupCard = ({ name, lastUpdate, isSelected, newContent, className }) => {
     const menuRef = useRef(null);
     const [showGroupMenu, setShowGroupMenu] = useState(false);
     const [listening, setListening] = useState(false);
@@ -32,6 +32,7 @@ export const GroupCard = ({ id, name, lastUpdate, isSelected, newContent }) => {
                 'min-w-[100px] w-fit h-14 p-2 cursor-pointer transition-all duration-150',
                 'hover:bg-primary hover:text-white group',
                 isSelected && "bg-primary-lighter text-white",
+                className
             )}
             onClick={markSelected}
             ref={menuRef}
@@ -46,8 +47,8 @@ export const GroupCard = ({ id, name, lastUpdate, isSelected, newContent }) => {
                 <div className={clsx(
                     "absolute top-full left-full py-1 rounded bg-white shadow-md text-sm flex flex-col",
                     "ease-in-out duration-300 transition text-black text-xs",
-                    showGroupMenu && "opacity-100", 
-                    !showGroupMenu && "opacity-0"
+                    showGroupMenu && "opacity-100 block", 
+                    !showGroupMenu && "opacity-0 hidden"
                 )}>
                     <div 
                         onClick={editGroup}
