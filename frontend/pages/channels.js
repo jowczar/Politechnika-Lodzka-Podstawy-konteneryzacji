@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { subMinutes } from "date-fns";
-import VideoCard from "../components/VideoCard/VideoCard";
+import VideoCard from "../components/VideoCard";
+import FilterCard from '../components/FilterCard';
+import { IoIosCheckmarkCircle } from 'react-icons/io';
+import { BiHide } from 'react-icons/bi';
 
 const Channels = () => {
   // TODO: fetch channels from backend
@@ -76,13 +79,22 @@ const Channels = () => {
       videos: []
     }
   ]);
+  const [filters, setFilters] = useState({
+    isWatched: false,
+    isHidden: false,
+  });
+  // TODO: on filters change, filter videos – filter on frontend or send request to backend - it's not yet decided
 
   return (
-    <div>
-      {/* TODO: filters */}
+    <>
+      {/* TODO: optionally add channels management here */}
+      <div className="flex flex-row gap-4 w-full px-10 py-4 mb-8 justify-end">
+        <FilterCard text='Show watched' icon={<IoIosCheckmarkCircle size={28} />} isActive={filters.isWatched} onClick={(value) => setFilters({ ...filters, isWatched: value})} />
+        <FilterCard text='Show hidden' icon={<BiHide size={24} />} isActive={filters.isHidden} onClick={(value) => setFilters({ ...filters, isHidden: value})} />
+      </div>
       {channels.map((channel) => 
-        <div key={"channel_" + channel.id}>
-          <div className="flex flex-row gap-2 items-center mx-10 first:mt-10">
+        <div key={"channel_" + channel.id} className='my-12'>
+          <div className="flex flex-row gap-2 items-center mx-10">
             <a href={channel.link} target="_blank" rel="noreferrer" className="hover:scale-110 duration-700">
               <img className='w-7	h-7 rounded-full' src={channel.avatar} alt={'avatar'} />
             </a>
@@ -93,12 +105,12 @@ const Channels = () => {
             </a>
             {channel.videos.length === 0 && <div className="font-light text-xl text-gray-400"> • you are all caught up ✨</div>}
           </div>
-          <div className="flex flex-row gap-10 overflow-auto no-scrollbar py-2.5 px-10">
+          <div className="flex flex-row gap-8 overflow-auto no-scrollbar py-2.5 px-10">
             {channel.videos.map((video) => <VideoCard className='shrink-0' video={video} key={"video_" + video.id} />)}
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }
 

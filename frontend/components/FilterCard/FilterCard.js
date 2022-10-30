@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 
-export const FilterCard = ({ isActive, text, icon }) => {
-    const markActive = () => { console.log('TODO: mark active') }
+export const FilterCard = ({ isActive, text, icon, onClick = () => {} }) => {
 
     return (
         <div 
@@ -10,7 +9,7 @@ export const FilterCard = ({ isActive, text, icon }) => {
                 !isActive && "bg-reddishWhite hover:bg-primary hover:text-white",
                 isActive && "bg-primary-lighter text-white hover:bg-primary"
             )} 
-            onClick={markActive}
+            onClick={() => onClick(!isActive)}
         >
             <div className='text-sm leading-tight'>{text}</div>
             <div className='rounded-full w-6 h-6'>
