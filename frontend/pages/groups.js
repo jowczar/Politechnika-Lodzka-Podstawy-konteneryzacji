@@ -138,9 +138,7 @@ const Groups = () => {
                   newContent={group.newContent} 
                   className={clsx(
                     'relative',
-                    'last:after:absolute last:after:right-[-1rem] last:after:border-r last:after:border-dashed last:after:block last:after:w-2 last:after:h-8',
                     'first:after:absolute first:after:left-[-1.5rem] first:after:border-r first:after:border-dashed first:after:block first:after:w-2 first:after:h-8',
-                    'last:after:border-gray-300',
                     'first:after:border-gray-300',
                   )}
               />
@@ -149,7 +147,10 @@ const Groups = () => {
               "select-none flex flex-row justify-center h-full rounded items-center",
               "text-gray-400 border border-dashed cursor-pointer transition-all duration-150",
               "px-3 py-3 w-[100px]",
-              "hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500"
+              "hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500",
+              "relative",
+              'last:after:absolute last:after:right-[-1rem] last:after:border-r last:after:border-dashed last:after:block last:after:w-2 last:after:h-8',
+              'last:after:border-gray-300',
               )}>
              <h3 className='font-light text-[10px] grow pr-1'>Add new group</h3>
             <TfiPlus size={16} className='flex-none' />
