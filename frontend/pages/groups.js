@@ -8,6 +8,7 @@ import { IoIosCheckmarkCircle } from 'react-icons/io';
 import { BiHide } from 'react-icons/bi';
 import { MdLabel } from 'react-icons/md';
 import clsx from 'clsx';
+import { TfiPlus } from 'react-icons/tfi';
 
 const Groups = () => {
   // TODO: fetch groups from backend
@@ -144,6 +145,15 @@ const Groups = () => {
                   )}
               />
           )}
+          <div className={clsx(
+              "select-none flex flex-row justify-center h-full rounded items-center",
+              "text-gray-400 border border-dashed cursor-pointer transition-all duration-150",
+              "px-3 py-3 w-[100px]",
+              "hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500"
+              )}>
+             <h3 className='font-light text-[10px] grow pr-1'>Add new group</h3>
+            <TfiPlus size={16} className='flex-none' />
+          </div>
         </div>
         <div className="flex flex-row gap-4 w-fit px-10 py-4 justify-end grow-0">
           <FilterCard text='Show watched' icon={<IoIosCheckmarkCircle size={28} />} isActive={filters.isWatched} onClick={(value) => setFilters({ ...filters, isWatched: value})} />
