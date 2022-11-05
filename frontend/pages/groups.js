@@ -104,22 +104,34 @@ const Groups = () => {
       lastUpdate: null,
     },
   ]);
+  // TODO: on filters change, filter videos – filter on frontend or send request to backend - it's not yet decided
   const [filters, setFilters] = useState({
     isWatched: false,
     isHidden: false,
   });
-  // TODO: on filters change, filter videos – filter on frontend or send request to backend - it's not yet decided
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const editGroup = (id) => { 
+    setIsModalOpen(true);
+  };
+
+  const deleteGroup = (id) => { 
+    // add confirmation here
+    console.log('TODO: delete group here')
+  };
 
   return (
     <>
       <div className="flex flex-row">
-        <div className="flex flex-row gap-4 w-full px-10 py-4 justify-end grow overflow-auto items-center">
+        <div className="flex flex-row gap-4 w-full px-10 py-4 justify-end grow items-center">
           {groups.map((group, i) => 
               <GroupCard 
-                  key={"group_" + i} 
+                  key={"group_card_" + i} 
                   name={group.name} 
                   lastUpdate={group.lastUpdate} 
                   isSelected={false} 
+                  onEdit={() => editGroup(group.id)}
+                  onDelete={() => deleteGroup(group.id)}
                   newContent={group.newContent} 
                   className={clsx(
                     'relative',

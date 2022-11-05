@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import listenForOutsideClicks from '../../hooks/OutsideClickHook';
 import { MdEdit, MdDelete } from 'react-icons/md';
 
-export const GroupCard = ({ name, lastUpdate, isSelected, newContent, className }) => {
+export const GroupCard = ({ name, lastUpdate, isSelected, newContent, className, onEdit = () => {}, onDelete = () => {} }) => {
     const menuRef = useRef(null);
     const [showGroupMenu, setShowGroupMenu] = useState(false);
     const [listening, setListening] = useState(false);
@@ -18,10 +18,6 @@ export const GroupCard = ({ name, lastUpdate, isSelected, newContent, className 
     ));
 
     const markSelected = () => { console.log('TODO: mark selected here')};
-
-    const editGroup = () => { console.log('TODO: edit group here')};
-
-    const deleteGroup = () => { console.log('TODO: delete group here')};
 
     const handleGroupMenu = () => setShowGroupMenu(!showGroupMenu);
 
@@ -51,13 +47,13 @@ export const GroupCard = ({ name, lastUpdate, isSelected, newContent, className 
                     !showGroupMenu && "opacity-0 hidden"
                 )}>
                     <div 
-                        onClick={editGroup}
+                        onClick={onEdit}
                         className="px-4 py-2 flex flex-row gap-2 items-center hover:bg-primary-lighter hover:cursor-pointer hover:text-white transition-all"
                     >
                         <MdEdit /> Edit
                     </div>
                     <div 
-                        onClick={deleteGroup}
+                        onClick={onDelete}
                         className="text-red-500 px-4 py-2 border-t border-t-gray-100 flex flex-row gap-2 items-center hover:bg-primary-lighter hover:cursor-pointer hover:text-white transition-all"
                     >
                         <MdDelete /> Delete
