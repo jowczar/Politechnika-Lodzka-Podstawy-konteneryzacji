@@ -1,10 +1,11 @@
 import clsx from 'clsx'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { TfiPlus } from 'react-icons/tfi';
 import { MdOutlineDone } from 'react-icons/md';
 import { ChromePicker } from 'react-color';
 import Button from '../Button';
+import { Transition } from '@headlessui/react'
 
 const Channel = ({ channel: { avatar, name }, onDelete }) => {
     return (
@@ -16,7 +17,7 @@ const Channel = ({ channel: { avatar, name }, onDelete }) => {
     );
 }
 
-export const GroupModal = ({ setOpen = () => {}}) => {
+export const GroupModal = ({ isOpen = false, setOpen = () => {}}) => {
     // TODO: get actual data from backend API
     const [name, setName] = useState('Biologia 🌳');
     const [channels, setChannels] = useState([
@@ -68,62 +69,72 @@ export const GroupModal = ({ setOpen = () => {}}) => {
     }
 
     return (
-        <div className="relative z-40" aria-labelledby="modal" role="dialog" aria-modal="true">
-            <div className="fixed inset-0 bg-black bg-opacity-40 transition-opacity"></div>
+        <Transition
+            show={isOpen}
+            enter="transition-opacity duration-150"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-300"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+        >
+            <div className="relative z-40" aria-labelledby="modal" role="dialog" aria-modal="true">
+                <div className="fixed inset-0 bg-black bg-opacity-40 transition-opacity"></div>
 
-            <div className="fixed inset-0 z-10 overflow-y-auto">
-                <div className="flex min-h-full justify-center text-center items-center">
-                    <div className="relative px-8 py-5 text-left transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:w-full sm:max-w-lg flex flex-col gap-8">
-                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} className='font-bold text-4xl leading-relaxed underline decoration-dashed decoration-gray-300 decoration-1 underline-offset-8' />
-	
-                        <div>
-                            <h2 className='font-bold text-base mb-2'>Channels</h2>
-                            <div className='flex flex-col gap-1'>
-                                {channels.map((channel, i) => <Channel key={"channel_" + i} channel={channel} onDelete={() => deleteChannel(channel.id)} />)}
-                                <div className={clsx(
-                                    'flex flex-row gap-5 px-3 py-4 rounded items-center text-gray-300 border border-dashed cursor-pointer transition-all duration-150',
-                                    'hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500'
-                                )}>
-                                    <TfiPlus size={16} />
-                                    <h3 className='font-bold text-xs'>Add channel</h3>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <h2 className='font-bold text-base mb-2'>Color label</h2>
-                            <div className='flex flex-row gap-2.5'>
-                                {colors.map((color, i) => 
-                                    <div 
-                                        key={"color_" + i} 
-                                        style={{ background: color }}
-                                        className={clsx(
-                                            `w-9 h-9 rounded cursor-pointer transition-all duration-300`,
-                                            selectedColor == color && 'ring-4 ring-primary'
-                                        )} 
-                                        onClick={() => setSelectedColor(color)}>
+                <div className="fixed inset-0 z-10 overflow-y-auto">
+                    <div className="flex min-h-full justify-center text-center items-center">
+                        <div className="relative px-8 py-5 text-left transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:w-full sm:max-w-lg flex flex-col gap-8">
+                            <input type="text" value={name} onChange={(e) => setName(e.target.value)} className='font-bold text-4xl leading-relaxed underline decoration-dashed decoration-gray-300 decoration-1 underline-offset-8' />
+        
+                            <div>
+                                <h2 className='font-bold text-base mb-2'>Channels</h2>
+                                <div className='flex flex-col gap-1'>
+                                    {channels.map((channel, i) => <Channel key={"channel_" + i} channel={channel} onDelete={() => deleteChannel(channel.id)} />)}
+                                    <div className={clsx(
+                                        'flex flex-row gap-5 px-3 py-4 rounded items-center text-gray-300 border border-dashed cursor-pointer transition-all duration-150',
+                                        'hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500'
+                                    )}>
+                                        <TfiPlus size={16} />
+                                        <h3 className='font-bold text-xs'>Add channel</h3>
                                     </div>
-                                )}
-                                <div type="color" className={clsx(
-                                    'flex items-center justify-center w-9 h-9 rounded cursor-pointer border border-dashed transition-all duration-150 text-gray-300',
-                                    'hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500',
-                                )}
-                                    onClick={handleShowPicker}
-                                >
-                                    <TfiPlus size={16} />
                                 </div>
-                                {showPicker && <ChromePicker color={selectedColor} onChangeComplete={(color) => setSelectedColor(color.hex)} />}
                             </div>
-                        </div>
+                            
+                            <div>
+                                <h2 className='font-bold text-base mb-2'>Color label</h2>
+                                <div className='flex flex-row gap-2.5'>
+                                    {colors.map((color, i) => 
+                                        <div 
+                                            key={"color_" + i} 
+                                            style={{ background: color }}
+                                            className={clsx(
+                                                `w-9 h-9 rounded cursor-pointer transition-all duration-300`,
+                                                selectedColor == color && 'ring-4 ring-primary'
+                                            )} 
+                                            onClick={() => setSelectedColor(color)}>
+                                        </div>
+                                    )}
+                                    <div type="color" className={clsx(
+                                        'flex items-center justify-center w-9 h-9 rounded cursor-pointer border border-dashed transition-all duration-150 text-gray-300',
+                                        'hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500',
+                                    )}
+                                        onClick={handleShowPicker}
+                                    >
+                                        <TfiPlus size={16} />
+                                    </div>
+                                    {showPicker && <ChromePicker color={selectedColor} onChangeComplete={(color) => setSelectedColor(color.hex)} />}
+                                </div>
+                            </div>
 
-                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
-                            <Button variant='secondary' onClick={() => setOpen(false)}><IoMdClose size={16} /> Cancel</Button>
-                            <Button variant='primary' size='full' isLoading={isLoading} disabled={isLoading} onClick={submit}><MdOutlineDone size={16} /> Save group</Button>
+                            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+                                <Button variant='secondary' onClick={() => setOpen(false)}><IoMdClose size={16} /> Cancel</Button>
+                                <Button variant='primary' size='full' isLoading={isLoading} disabled={isLoading} onClick={submit}><MdOutlineDone size={16} /> Save group</Button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </Transition>
     )
 }
 

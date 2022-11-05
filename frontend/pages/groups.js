@@ -3,6 +3,7 @@ import { subMinutes } from "date-fns";
 import VideoCard from "../components/VideoCard";
 import FilterCard from '../components/FilterCard';
 import GroupCard from '../components/GroupCard';
+import GroupModal from "../components/GroupModal";
 import { IoIosCheckmarkCircle } from 'react-icons/io';
 import { BiHide } from 'react-icons/bi';
 import { MdLabel } from 'react-icons/md';
@@ -162,6 +163,7 @@ const Groups = () => {
           <div className="flex flex-row gap-8 overflow-auto no-scrollbar py-2.5 px-10">
             {group.videos.map((video) => <VideoCard className='shrink-0' video={video} key={"video_" + video.id} />)}
           </div>
+          <GroupModal isOpen={isModalOpen} setOpen={setIsModalOpen} />
         </div>
       )}
     </>
