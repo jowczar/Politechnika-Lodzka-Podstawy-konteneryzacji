@@ -116,9 +116,10 @@ const Groups = () => {
     setIsModalOpen(true);
   };
 
-  const deleteGroup = (id) => { 
-    // add confirmation here
-    console.log('TODO: delete group here')
+  const deleteGroup = (id, name) => { 
+    if (confirm(`Are you sure you want to delete group ${name}?`)) {    
+      console.log('TODO: delete group here')
+    }
   };
 
   return (
@@ -132,7 +133,7 @@ const Groups = () => {
                   lastUpdate={group.lastUpdate} 
                   isSelected={false} 
                   onEdit={() => editGroup(group.id)}
-                  onDelete={() => deleteGroup(group.id)}
+                  onDelete={() => deleteGroup(group.id, group.name)}
                   newContent={group.newContent} 
                   className={clsx(
                     'relative',
