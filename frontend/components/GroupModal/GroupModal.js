@@ -68,12 +68,12 @@ export const GroupModal = ({ setOpen = () => {}}) => {
     }
 
     return (
-        <div class="relative z-10" aria-labelledby="modal" role="dialog" aria-modal="true">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+        <div className="relative z-40" aria-labelledby="modal" role="dialog" aria-modal="true">
+            <div className="fixed inset-0 bg-black bg-opacity-40 transition-opacity"></div>
 
-            <div class="fixed inset-0 z-10 overflow-y-auto">
-                <div class="flex min-h-full justify-center text-center items-center">
-                    <div class="relative px-8 py-5 text-left transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:w-full sm:max-w-lg flex flex-col gap-8">
+            <div className="fixed inset-0 z-10 overflow-y-auto">
+                <div className="flex min-h-full justify-center text-center items-center">
+                    <div className="relative px-8 py-5 text-left transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:w-full sm:max-w-lg flex flex-col gap-8">
                         <input type="text" value={name} onChange={(e) => setName(e.target.value)} className='font-bold text-4xl leading-relaxed underline decoration-dashed decoration-gray-300 decoration-1 underline-offset-8' />
 	
                         <div>
@@ -116,7 +116,7 @@ export const GroupModal = ({ setOpen = () => {}}) => {
                             </div>
                         </div>
 
-                        <div class="flex flex-col sm:flex-row gap-2 sm:gap-4">
+                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
                             <Button variant='secondary' onClick={() => setOpen(false)}><IoMdClose size={16} /> Cancel</Button>
                             <Button variant='primary' size='full' isLoading={isLoading} disabled={isLoading} onClick={submit}><MdOutlineDone size={16} /> Save group</Button>
                         </div>
