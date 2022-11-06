@@ -32,7 +32,7 @@ export const VideoCard = ({ video: { thumbnail, link, title, duration, uploadTim
                 </div>
             </div>
             <div className="flex flex-row h-11 px-5 py-4 bg-grey rounded-b justify-between items-center">
-                <h5 className="text-xs text-gray-500">{getTimeComment(uploadTime)}</h5>
+                <h5 className="text-xs text-gray-500">{getTimeComment(new Date(uploadTime))}</h5>
                 {!hideInteractions && <div className='flex flex-row gap-2'>
                     {!isWatched && !isHidden && (
                         <>
