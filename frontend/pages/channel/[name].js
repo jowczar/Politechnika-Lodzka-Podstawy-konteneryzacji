@@ -8,7 +8,7 @@ import { useState, Fragment, useEffect } from 'react';
 import { Listbox, Transition } from '@headlessui/react'
 import { AiOutlineCheck } from 'react-icons/ai'
 import { BsChevronDown } from 'react-icons/bs'
-// import { useSpring, animated } from "react-spring";
+import { useSpring, animated } from "react-spring";
 
 // TODO: fetch groups from API
 // important note: these values (references) should be immutable
@@ -109,8 +109,8 @@ const GroupSelect = () => {
 const Channel = ({ isFound, videos, channelAvatar, name, isSubscribed }) => {
     const parsedVideos = JSON.parse(videos);
     const [subscribed, setSubscribed] = useState(isSubscribed);
-    // const springStyle = useSpring({ to: { opacity: subscribed ? 1 : 0 }, from: { opacity: subscribed ? 0 : 1 } })
-    // const AnimatedGroupSelect = animated(GroupSelect);
+    const springStyle = useSpring({ to: { opacity: subscribed ? 1 : 0 }, from: { opacity: subscribed ? 0 : 1 } })
+    const AnimatedGroupSelect = animated(GroupSelect);
 
     const toggleSubscription = () => {
         console.log('TODO: unsubscribe/subscribe to channel 📹');
@@ -129,10 +129,10 @@ const Channel = ({ isFound, videos, channelAvatar, name, isSubscribed }) => {
                 <div className="flex flex-col items-center gap-4">
                     <Button variant='cta' onClick={toggleSubscription} className={clsx(
                         "font-bold w-48",
-                        subscribed && "bg-gray-400 hover:bg-gray-500",
+                        subscribed && "!bg-gray-400 hover:!bg-gray-500",
                     )}>{subscribed ? 'Subscribed!' : 'Subscribe'}</Button>
-                    <GroupSelect />
-                    {/* <AnimatedGroupSelect style={springStyle} /> */}
+                    {/* <GroupSelect /> */}
+                    <AnimatedGroupSelect style={springStyle} />
                 </div>
             </div>
             <div className="flex flex-row w-full justify-center flex-wrap gap-8 px-10 pb-20">
