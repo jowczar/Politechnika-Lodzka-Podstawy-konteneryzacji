@@ -56,7 +56,7 @@ export function getServerSideProps({ params }) {
             props: {
                 isFound: false,
                 isSubscribed: false,
-                videos: [],
+                videos: "[]",
                 name,
                 channelAvatar: null,
             }
