@@ -38,7 +38,7 @@ const Channel = ({ isFound, videos, channelAvatar, name, isSubscribed }) => {
                     isSubscribed && "bg-gray-400 hover:bg-gray-500"
                 )}>{isSubscribed ? 'Subscribed' : 'Subscribe'}</Button>
             </div>
-            <div className="flex w-full flex-wrap gap-8 px-4 pb-10 items-center justify-center">
+            <div className="flex flex-row w-full justify-center flex-wrap gap-8 px-10 pb-20">
                 {parsedVideos.map(video => (
                     <VideoCard hideInteractions className='shrink-0' video={video} key={"video_" + video.id} />
                 ))}
