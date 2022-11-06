@@ -148,7 +148,7 @@ const Groups = () => {
               "text-gray-400 border border-dashed cursor-pointer transition-all duration-150",
               "px-3 py-3 w-[100px]",
               "hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500",
-              "relative",
+              "relative z-10",
               'last:after:absolute last:after:right-[-1rem] last:after:border-r last:after:border-dashed last:after:block last:after:w-2 last:after:h-8',
               'last:after:border-gray-300',
               )}>
