@@ -4,7 +4,7 @@ import Button from '../../components/Button';
 import VideoCard from "../../components/VideoCard";
 import { subMinutes } from "date-fns";
 import clsx from 'clsx';
-import { useState, Fragment, useEffect } from 'react';
+import { useState, Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react'
 import { AiOutlineCheck } from 'react-icons/ai'
 import { BsChevronDown } from 'react-icons/bs'
@@ -109,8 +109,10 @@ const GroupSelect = () => {
 const Channel = ({ isFound, videos, channelAvatar, name, isSubscribed }) => {
     const parsedVideos = JSON.parse(videos);
     const [subscribed, setSubscribed] = useState(isSubscribed);
-    const springStyle = useSpring({ to: { opacity: subscribed ? 1 : 0 }, from: { opacity: subscribed ? 0 : 1 } })
-    const AnimatedGroupSelect = animated(GroupSelect);
+    const springStyle = useSpring({
+        opacity: subscribed ? 1 : 0,
+        zIndex: 40,
+    });
 
     const toggleSubscription = () => {
         console.log('TODO: unsubscribe/subscribe to channel 📹');
@@ -131,8 +133,9 @@ const Channel = ({ isFound, videos, channelAvatar, name, isSubscribed }) => {
                         "font-bold w-48",
                         subscribed && "!bg-gray-400 hover:!bg-gray-500",
                     )}>{subscribed ? 'Subscribed!' : 'Subscribe'}</Button>
-                    {/* <GroupSelect /> */}
-                    <AnimatedGroupSelect style={springStyle} />
+                    <animated.div style={springStyle}>
+                        <GroupSelect />
+                    </animated.div>
                 </div>
             </div>
             <div className="flex flex-row w-full justify-center flex-wrap gap-8 px-10 pb-20">
