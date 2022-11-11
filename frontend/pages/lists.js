@@ -2,6 +2,7 @@ import { useState } from "react";
 import { subMinutes } from "date-fns";
 import VideoCard from "../components/VideoCard";
 import { BiLinkExternal } from 'react-icons/bi';
+import Image from "next/image";
 
 const Lists = () => {
   // TODO: fetch playlists from backend
@@ -69,6 +70,22 @@ const Lists = () => {
       ]
     },
   ]);
+
+  if (lists.length === 0) {
+    return (
+      <div className='flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
+        <Image
+            src="/doggy.svg" 
+            layout='responsive'
+            height={323} 
+            width={309}
+            alt="Not found :("
+            />
+        <h1 className="mt-10 font-bold text-3xl">No lists added</h1>
+        <h3 className="mt-1 text-gray-500 text-center leading-tight font-light">Create some lists on <a href="https://www.youtube.com/" className="hover:underline text-yt" target="_blank" rel="noreferrer">YouTube</a> <br/>so we can show them here for you!</h3>
+      </div>  
+    );
+  }
   
   return (
     <div className="mt-14">
