@@ -164,12 +164,12 @@ const Groups = () => {
       {groups.map((group) => 
         <div key={"group_" + group.id} className='mt-4 mb-8'>
           <div className="flex flex-row gap-2 items-center mx-10">
-            <a href={group.link} target="_blank" rel="noreferrer" className="hover:underline flex flex-row gap-1 items-center">
-              <h2 className="font-bold text-2xl	">
+            <div className="flex flex-row gap-1 items-center">
+              <h2 className="font-bold text-2xl	select-none">
                 {group.name}
               </h2>
               <MdLabel style={{ color: group.color }} className='rotate-180' size={22} />
-            </a>
+            </div>
             {group.videos.length === 0 && <div className="font-light text-xl text-gray-400"> • you are all caught up ✨</div>}
           </div>
           <div className="flex flex-row gap-8 overflow-auto no-scrollbar py-2.5 px-10">
