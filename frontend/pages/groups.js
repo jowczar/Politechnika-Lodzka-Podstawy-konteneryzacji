@@ -173,7 +173,7 @@ const Groups = () => {
           <div className={clsx(
               "select-none flex flex-row justify-center h-full rounded items-center",
               "text-gray-400 border border-dashed cursor-pointer transition-all duration-150",
-              "px-3 py-3 w-[100px]",
+              "px-3 py-3 w-full h-14 md:w-[100px]",
               "hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500",
               "relative z-10",
               'last:after:hidden md:last:after:block last:after:absolute last:after:right-[-1rem] last:after:border-r last:after:border-dashed last:after:block last:after:w-2 last:after:h-8',
@@ -183,7 +183,7 @@ const Groups = () => {
             <TfiPlus size={16} className='flex-none' />
           </div>
         </div>
-        <div className="flex order-1 md:order-2 flex-row gap-4 w-fit px-10 py-4 justify-center md:justify-end grow-0">
+        <div className="flex order-1 md:order-2 flex-row gap-4 w-full md:w-fit px-10 py-4 justify-between items-between md:justify-end md:grow-0">
           <FilterCard text='Show watched' icon={<IoIosCheckmarkCircle size={28} />} isActive={filters.isWatched} onClick={(value) => setFilters({ ...filters, isWatched: value})} />
           <FilterCard text='Show hidden' icon={<BiHide size={24} />} isActive={filters.isHidden} onClick={(value) => setFilters({ ...filters, isHidden: value})} />
         </div>

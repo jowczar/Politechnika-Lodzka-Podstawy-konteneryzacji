@@ -26,7 +26,7 @@ export const GroupCard = ({ name, lastUpdate, isSelected, newContent, className,
         <div 
             className={clsx(
                 'bg-reddishWhite rounded drop-shadow-md select-none flex flex-col justify-center',
-                'min-w-[100px] z-10 w-fit h-14 p-2 cursor-pointer transition-all duration-150',
+                'min-w-[100px] z-10 w-full md:w-fit h-14 p-2 cursor-pointer transition-all duration-150',
                 'hover:bg-primary hover:text-white group',
                 isSelected && "bg-primary-lighter text-white",
                 className
