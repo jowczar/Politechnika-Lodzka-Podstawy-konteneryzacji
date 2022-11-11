@@ -170,7 +170,7 @@ const Groups = () => {
               </h2>
               <MdLabel style={{ color: group.color }} className='rotate-180' size={22} />
             </div>
-            {group.videos.length === 0 && <div className="font-light text-xl text-gray-400"> • you are all caught up ✨</div>}
+            {group.videos.length === 0 && <div className="font-light text-xl select-none text-gray-400"> • you are all caught up ✨</div>}
           </div>
           <div className="flex flex-row gap-8 overflow-auto no-scrollbar py-2.5 px-10">
             {group.videos.map((video) => <VideoCard className='shrink-0' video={video} key={"video_" + video.id} />)}
