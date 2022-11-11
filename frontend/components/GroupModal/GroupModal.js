@@ -102,20 +102,20 @@ export const GroupModal = ({ isOpen = false, setOpen = () => {}}) => {
                             
                             <div>
                                 <h2 className='font-bold text-base mb-2'>Color label</h2>
-                                <div className='flex flex-row gap-2.5'>
+                                <div className='flex flex-row flex-wrap gap-2.5'>
                                     {colors.map((color, i) => 
                                         <div 
                                             key={"color_" + i} 
                                             style={{ background: color }}
                                             className={clsx(
-                                                `w-9 h-9 rounded cursor-pointer transition-all duration-300`,
+                                                `w-9 h-9 flex-none rounded cursor-pointer transition-all duration-300`,
                                                 selectedColor == color && 'ring-4 ring-primary'
                                             )} 
                                             onClick={() => setSelectedColor(color)}>
                                         </div>
                                     )}
                                     <div type="color" className={clsx(
-                                        'flex items-center justify-center w-9 h-9 rounded cursor-pointer border border-dashed transition-all duration-150 text-gray-300',
+                                        'flex items-center justify-center flex-none w-9 h-9 rounded cursor-pointer border border-dashed transition-all duration-150 text-gray-300',
                                         'hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500',
                                     )}
                                         onClick={handleShowPicker}
