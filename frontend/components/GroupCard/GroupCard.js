@@ -53,7 +53,7 @@ export const GroupCard = ({ name, lastUpdate, isSelected, newContent, className,
                     leaveTo="transform opacity-0 scale-95"
                 >
                     <Menu.Items className={clsx(
-                        "absolute z-20 top-[125%] right-0 py-1 rounded bg-white shadow-md text-sm flex flex-col",
+                        "absolute z-20 bottom-[125%] md:bottom-auto md:top-[125%] right-0 py-1 rounded bg-white shadow-md text-sm flex flex-col",
                         "text-black text-xs",
                         "ring-1 ring-black ring-opacity-5 focus:outline-none",
                         showGroupMenu && "opacity-100 block", 

@@ -83,7 +83,7 @@ export const GroupModal = ({ isOpen = false, setOpen = () => {}}) => {
 
                 <div className="fixed inset-0 z-10 overflow-y-auto">
                     <div className="flex min-h-full justify-center text-center items-center">
-                        <div className="relative px-8 py-5 text-left transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:w-full sm:max-w-lg flex flex-col gap-8">
+                        <div className="relative px-8 py-5 text-left transform overflow-hidden sm:rounded-lg bg-white shadow-xl transition-all sm:w-full sm:max-w-lg flex flex-col gap-8">
                             <input type="text" value={name} onChange={(e) => setName(e.target.value)} className='font-bold text-4xl leading-relaxed underline decoration-dashed decoration-gray-300 decoration-1 underline-offset-8' />
         
                             <div>
