@@ -125,9 +125,9 @@ const Channel = ({ isFound, videos, channelAvatar, name, isSubscribed }) => {
 
     return (
         <div className='flex flex-col'>
-            <div className="flex flex-col items-center gap-4 my-24">
+            <div className="flex flex-col p-2 items-center gap-4 my-6 md:my-24">
                 <Avatar link={channelAvatar} className='w-20 h-20' />
-                <h1 className="font-bold text-4xl">{name}</h1>
+                <h1 className="font-bold text-center text-4xl">{name}</h1>
                 <div className="flex flex-col items-center gap-4">
                     <Button variant='cta' onClick={toggleSubscription} className={clsx(
                         "font-bold w-48",
