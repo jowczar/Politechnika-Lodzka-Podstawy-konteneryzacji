@@ -73,7 +73,7 @@ const Lists = () => {
 
   if (lists.length === 0) {
     return (
-      <div className='flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
+      <div className='flex text-center flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
         <Image
             src="/doggy.svg" 
             layout='responsive'
