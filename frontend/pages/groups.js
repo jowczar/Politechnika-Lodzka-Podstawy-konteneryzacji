@@ -125,20 +125,28 @@ const Groups = () => {
     }
   };
 
-  if (true) {
+  const addGroup = () => {
+    setIsModalOpen(true);
+    // TODO: add group here 
+  }
+
+  if (groups.length === 0) {
     return (
-      <div className='flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
-        <Image
-            src="/doggy.svg" 
-            layout='responsive'
-            height={323} 
-            width={309}
-            alt="Not found :("
-            />
-        <h1 className="mt-10 font-bold text-3xl">No groups here yet!</h1>
-        <h3 className="mt-1 text-gray-500 text-center leading-tight font-light mb-4">Make your watch time productive by groupping channels together</h3>
-        <Button variant="primary">Add group</Button>
-      </div> 
+      <>
+        <div className='flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
+          <Image
+              src="/doggy.svg" 
+              layout='responsive'
+              height={323} 
+              width={309}
+              alt="Not found :("
+              />
+          <h1 className="mt-10 font-bold text-3xl">No groups here yet!</h1>
+          <h3 className="mt-1 text-gray-500 text-center leading-tight font-light mb-4">Make your watch time productive by groupping channels together</h3>
+          <Button variant="primary" onClick={addGroup}>Add group</Button>
+        </div> 
+        <GroupModal isOpen={isModalOpen} setOpen={setIsModalOpen} />
+      </>
     )
   }
 
@@ -194,9 +202,9 @@ const Groups = () => {
           <div className="flex flex-row gap-8 overflow-auto no-scrollbar py-2.5 px-10">
             {group.videos.map((video) => <VideoCard className='shrink-0' video={video} key={"video_" + video.id} />)}
           </div>
-          <GroupModal isOpen={isModalOpen} setOpen={setIsModalOpen} />
         </div>
       )}
+      <GroupModal isOpen={isModalOpen} setOpen={setIsModalOpen} />
     </>
   )
 }
