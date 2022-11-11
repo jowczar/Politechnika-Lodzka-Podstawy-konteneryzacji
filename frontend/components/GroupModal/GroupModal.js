@@ -1,14 +1,15 @@
 import clsx from 'clsx'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { TfiPlus } from 'react-icons/tfi';
 import { MdOutlineDone } from 'react-icons/md';
 import { ChromePicker } from 'react-color';
 import Button from '../Button';
+import listenForOutsideClicks from '../../hooks/OutsideClickHook';
 import { Transition } from '@headlessui/react'
 
 const Channel = ({ channel: { avatar, name }, onDelete }) => {
-    return (
+    return (    
         <div className='flex flex-row px-3 py-4 rounded items-center gap-5 bg-grey'>
             <img className='rounded-full w-6 h-6' src={avatar} alt={'avatar'} />
             <h3 className='font-bold text-xs grow'>{name}</h3>
@@ -52,8 +53,19 @@ export const GroupModal = ({ isOpen = false, setOpen = () => {}}) => {
     const [selectedColor, setSelectedColor] = useState('#19B929');
     const [showPicker, setShowPicker] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [pickerListening, setPickerListening] = useState(false);
+    const pickerRef = useRef(null);
+    const colorRef = useRef(null);
+    
+    const handleShowPicker = useCallback((state) => {
+        if (colorRef.current && !colors.includes(colorRef.current)) {
+            setColors([ ...colors, colorRef.current ]);
+        }
 
-    const handleShowPicker = () => setShowPicker(!showPicker);
+        console.log(state, colorRef.current, colors);
+
+        setShowPicker(state);
+    }, [colors]);
 
     const deleteChannel = (id) => {
         setChannels(channels.filter(channel => channel.id !== id));
@@ -67,6 +79,13 @@ export const GroupModal = ({ isOpen = false, setOpen = () => {}}) => {
             setOpen(false);
         }, 1000);
     }
+
+    useEffect(listenForOutsideClicks(
+        pickerListening,
+        setPickerListening,
+        pickerRef,
+        handleShowPicker,
+    ));
 
     return (
         <Transition
@@ -100,7 +119,7 @@ export const GroupModal = ({ isOpen = false, setOpen = () => {}}) => {
                                 </div>
                             </div>
                             
-                            <div>
+                            <div className='relative'>
                                 <h2 className='font-bold text-base mb-2'>Color label</h2>
                                 <div className='flex flex-row flex-wrap gap-2.5'>
                                     {colors.map((color, i) => 
@@ -114,15 +133,38 @@ export const GroupModal = ({ isOpen = false, setOpen = () => {}}) => {
                                             onClick={() => setSelectedColor(color)}>
                                         </div>
                                     )}
-                                    <div type="color" className={clsx(
-                                        'flex items-center justify-center flex-none w-9 h-9 rounded cursor-pointer border border-dashed transition-all duration-150 text-gray-300',
-                                        'hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500',
-                                    )}
-                                        onClick={handleShowPicker}
-                                    >
-                                        <TfiPlus size={16} />
+                                    <div ref={pickerRef}>
+                                        <div  
+                                            style={{ background: showPicker ? colorRef.current : 'transparent' }}
+                                            className={clsx(
+                                                `w-9 h-9 flex items-center justify-center flex-none rounded cursor-pointer transition-all duration-300`,
+                                                showPicker && 'ring-4 ring-primary',
+                                                !showPicker && [
+                                                    'bg-transparent',
+                                                    'border border-dashed transition-all duration-150 text-gray-300',
+                                                    'hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500',
+                                                ]
+                                            )}
+                                            onClick={() => handleShowPicker(true)}
+                                        >
+                                            <TfiPlus size={16} className={clsx(
+                                                    !showPicker && "opacity-100 block", 
+                                                    showPicker && "opacity-0 hidden"
+                                                )} />
+                                        </div>
+                                        <div 
+                                            className={clsx(
+                                                'absolute bottom-1/2 right-1/2 translate-x-1/2 transition-all duration-300 mt-4',
+                                                showPicker && "opacity-100 block", 
+                                                !showPicker && "opacity-0 hidden"
+                                            )}
+                                            >
+                                                <ChromePicker disableAlpha color={selectedColor} onChangeComplete={(color) => {
+                                                    colorRef.current = color.hex;
+                                                    setSelectedColor(color.hex);
+                                                }} />
+                                        </div>
                                     </div>
-                                    {showPicker && <ChromePicker color={selectedColor} onChangeComplete={(color) => setSelectedColor(color.hex)} />}
                                 </div>
                             </div>
 
