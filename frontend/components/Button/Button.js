@@ -31,7 +31,7 @@ export const Button = React.forwardRef(
           "transition-all duration-300",
           [
             variant === 'cta' && [
-              "bg-yt text-white hover:bg-yt-darker active:bg-yt-darker",
+              "bg-yt font-bold text-white hover:bg-yt-darker active:bg-yt-darker",
             ],
             variant === "primary" && [
               "bg-primary text-white",
