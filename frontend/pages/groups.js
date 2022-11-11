@@ -10,6 +10,7 @@ import { MdLabel } from 'react-icons/md';
 import clsx from 'clsx';
 import { TfiPlus } from 'react-icons/tfi';
 import Image from "next/image";
+import Button from "../components/Button";
 
 const Groups = () => {
   // TODO: fetch groups from backend
@@ -124,6 +125,23 @@ const Groups = () => {
     }
   };
 
+  if (true) {
+    return (
+      <div className='flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
+        <Image
+            src="/doggy.svg" 
+            layout='responsive'
+            height={323} 
+            width={309}
+            alt="Not found :("
+            />
+        <h1 className="mt-10 font-bold text-3xl">No groups here yet!</h1>
+        <h3 className="mt-1 text-gray-500 text-center leading-tight font-light mb-4">Make your watch time productive by groupping channels together</h3>
+        <Button variant="primary">Add group</Button>
+      </div> 
+    )
+  }
+
   return (
     <>
       <div className="flex flex-row">
@@ -162,19 +180,6 @@ const Groups = () => {
           <FilterCard text='Show hidden' icon={<BiHide size={24} />} isActive={filters.isHidden} onClick={(value) => setFilters({ ...filters, isHidden: value})} />
         </div>
       </div>
-      {groups.length === 0 && (
-        <div className='flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
-          <Image
-              src="/doggy.svg" 
-              layout='responsive'
-              height={323} 
-              width={309}
-              alt="Not found :("
-              />
-          <h1 className="mt-10 font-bold text-3xl">No groups added!</h1>
-          <h3 className="mt-1 text-gray-500 text-center leading-tight font-light">Add a group to keep your subscriptions nicely organized!</h3>
-        </div> 
-      )} 
       {groups.map((group) => 
         <div key={"group_" + group.id} className='mt-4 mb-8'>
           <div className="flex flex-row gap-2 items-center mx-10">
