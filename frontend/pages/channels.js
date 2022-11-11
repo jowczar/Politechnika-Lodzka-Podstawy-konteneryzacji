@@ -4,6 +4,7 @@ import VideoCard from "../components/VideoCard";
 import FilterCard from '../components/FilterCard';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
 import { BiHide } from 'react-icons/bi';
+import Image from "next/image";
 
 const Channels = () => {
   // TODO: fetch channels from backend
@@ -84,6 +85,22 @@ const Channels = () => {
     isHidden: false,
   });
   // TODO: on filters change, filter videos – filter on frontend or send request to backend - it's not yet decided
+
+  if (channels.length === 0) {
+    return (
+      <div className='flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
+        <Image 
+            src="/doggy.svg" 
+            layout='responsive'
+            height={323} 
+            width={309}
+            alt="Not found :("
+            />
+        <h1 className="mt-10 font-bold text-3xl">No channels subscribed</h1>
+        <h3 className="mt-1 text-gray-500 text-center leading-tight font-light">Subscribe to some channels on <a href="https://www.youtube.com/" className="hover:underline text-yt" target="_blank" rel="noreferrer">YouTube</a> <br/>so we can filter them here for you!</h3>
+      </div>  
+    );
+  }
 
   return (
     <>
