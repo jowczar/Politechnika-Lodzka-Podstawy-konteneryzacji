@@ -105,14 +105,14 @@ const Channels = () => {
   return (
     <>
       {/* TODO: optionally add channels management here */}
-      <div className="flex flex-row gap-4 w-full px-10 py-4 justify-end">
+      <div className="flex flex-row gap-4 w-full px-10 py-4 justify-center md:justify-end">
         <FilterCard text='Show watched' icon={<IoIosCheckmarkCircle size={28} />} isActive={filters.isWatched} onClick={(value) => setFilters({ ...filters, isWatched: value})} />
         <FilterCard text='Show hidden' icon={<BiHide size={24} />} isActive={filters.isHidden} onClick={(value) => setFilters({ ...filters, isHidden: value})} />
       </div>
       {channels.map((channel) => 
         <div key={"channel_" + channel.id} className='mt-4 mb-8'>
-          <div className="flex flex-row gap-2 items-center mx-10">
-            <a href={channel.link} target="_blank" rel="noreferrer" className="hover:scale-110 duration-700">
+          <div className="flex flex-col text-center md:flex-row gap-2 items-center mx-10">
+            <a href={channel.link} target="_blank" rel="noreferrer" className="hover:scale-110 duration-700 flex-none">
               <img className='w-7	h-7 rounded-full' src={channel.avatar} alt={'avatar'} />
             </a>
             <a href={channel.link} target="_blank" rel="noreferrer" className="hover:underline">
