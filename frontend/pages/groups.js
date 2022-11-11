@@ -152,8 +152,8 @@ const Groups = () => {
 
   return (
     <>
-      <div className="flex flex-row">
-        <div className="flex flex-row gap-4 w-full px-10 py-4 justify-end grow items-center">
+      <div className="flex flex-col items-center md:flex-row">
+        <div className="flex order-2 md:order-1 flex-col md:flex-row gap-4 w-full px-10 py-4 justify-center md:justify-end grow items-center">
           {groups.map((group, i) => 
               <GroupCard 
                   key={"group_card_" + i} 
@@ -165,7 +165,7 @@ const Groups = () => {
                   newContent={group.newContent} 
                   className={clsx(
                     'relative',
-                    'first:after:absolute first:after:left-[-1.5rem] first:after:border-r first:after:border-dashed first:after:block first:after:w-2 first:after:h-8',
+                    'first:after:hidden md:first:after:block first:after:absolute first:after:left-[-1.5rem] first:after:border-r first:after:border-dashed first:after:block first:after:w-2 first:after:h-8',
                     'first:after:border-gray-300',
                   )}
               />
@@ -176,21 +176,21 @@ const Groups = () => {
               "px-3 py-3 w-[100px]",
               "hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500",
               "relative z-10",
-              'last:after:absolute last:after:right-[-1rem] last:after:border-r last:after:border-dashed last:after:block last:after:w-2 last:after:h-8',
+              'last:after:hidden md:last:after:block last:after:absolute last:after:right-[-1rem] last:after:border-r last:after:border-dashed last:after:block last:after:w-2 last:after:h-8',
               'last:after:border-gray-300',
               )}>
              <h3 className='font-light text-[10px] grow pr-1'>Add new group</h3>
             <TfiPlus size={16} className='flex-none' />
           </div>
         </div>
-        <div className="flex flex-row gap-4 w-fit px-10 py-4 justify-end grow-0">
+        <div className="flex order-1 md:order-2 flex-row gap-4 w-fit px-10 py-4 justify-center md:justify-end grow-0">
           <FilterCard text='Show watched' icon={<IoIosCheckmarkCircle size={28} />} isActive={filters.isWatched} onClick={(value) => setFilters({ ...filters, isWatched: value})} />
           <FilterCard text='Show hidden' icon={<BiHide size={24} />} isActive={filters.isHidden} onClick={(value) => setFilters({ ...filters, isHidden: value})} />
         </div>
       </div>
       {groups.map((group) => 
         <div key={"group_" + group.id} className='mt-4 mb-8'>
-          <div className="flex flex-row gap-2 items-center mx-10">
+          <div className="flex flex-col md:flex-row gap-2 items-center mx-10">
             <div className="flex flex-row gap-1 items-center">
               <h2 className="font-bold text-2xl	select-none">
                 {group.name}
