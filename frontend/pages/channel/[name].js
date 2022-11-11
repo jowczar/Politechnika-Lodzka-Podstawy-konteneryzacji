@@ -31,7 +31,7 @@ const groups = [
 ];
 
 const ChannelNotFound = () => (
-    <div className='flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
+    <div className='flex flex-col items-center text-center justify-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
         <Image 
             src="/void.svg" 
             layout='responsive'
@@ -125,9 +125,9 @@ const Channel = ({ isFound, videos, channelAvatar, name, isSubscribed }) => {
 
     return (
         <div className='flex flex-col'>
-            <div className="flex flex-col items-center gap-4 my-24">
+            <div className="flex flex-col p-2 items-center gap-4 my-6 md:my-24">
                 <Avatar link={channelAvatar} className='w-20 h-20' />
-                <h1 className="font-bold text-4xl">{name}</h1>
+                <h1 className="font-bold text-center text-4xl">{name}</h1>
                 <div className="flex flex-col items-center gap-4">
                     <Button variant='cta' onClick={toggleSubscription} className={clsx(
                         "font-bold w-48",

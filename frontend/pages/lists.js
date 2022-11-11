@@ -2,6 +2,7 @@ import { useState } from "react";
 import { subMinutes } from "date-fns";
 import VideoCard from "../components/VideoCard";
 import { BiLinkExternal } from 'react-icons/bi';
+import Image from "next/image";
 
 const Lists = () => {
   // TODO: fetch playlists from backend
@@ -69,17 +70,33 @@ const Lists = () => {
       ]
     },
   ]);
+
+  if (lists.length === 0) {
+    return (
+      <div className='flex text-center flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
+        <Image
+            src="/doggy.svg" 
+            layout='responsive'
+            height={323} 
+            width={309}
+            alt="Not found :("
+            />
+        <h1 className="mt-10 font-bold text-3xl">No lists added</h1>
+        <h3 className="mt-1 text-gray-500 text-center leading-tight font-light">Create some lists on <a href="https://www.youtube.com/" className="hover:underline text-yt" target="_blank" rel="noreferrer">YouTube</a> <br/>so we can show them here for you!</h3>
+      </div>  
+    );
+  }
   
   return (
     <div className="mt-14">
       {lists.map((list) => 
         <div key={"list_" + list.id} className='mt-4 mb-8'>
-          <div className="flex flex-row gap-2 items-center mx-10">
+          <div className="flex flex-row gap-2 text-center items-center mx-10">
             <a href={list.link} target="_blank" rel="noreferrer" className="hover:underline flex flex-row items-center">
               <h2 className="font-bold text-2xl	">
                 {list.name}
               </h2>
-              <BiLinkExternal size={12} className="hover:scale-125 duration-700 ml-1" />
+              <BiLinkExternal size={12} className="flex-none hover:scale-125 duration-700 ml-1" />
             </a>
             {list.videos.length === 0 && <div className="font-light text-xl text-gray-400"> • no videos</div>}
           </div>

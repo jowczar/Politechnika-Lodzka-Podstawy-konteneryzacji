@@ -9,6 +9,8 @@ import { BiHide } from 'react-icons/bi';
 import { MdLabel } from 'react-icons/md';
 import clsx from 'clsx';
 import { TfiPlus } from 'react-icons/tfi';
+import Image from "next/image";
+import Button from "../components/Button";
 
 const Groups = () => {
   // TODO: fetch groups from backend
@@ -123,10 +125,35 @@ const Groups = () => {
     }
   };
 
+  const addGroup = () => {
+    setIsModalOpen(true);
+    // TODO: add group here 
+  }
+
+  if (groups.length === 0) {
+    return (
+      <>
+        <div className='flex text-center flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
+          <Image
+              src="/doggy.svg" 
+              layout='responsive'
+              height={323} 
+              width={309}
+              alt="Not found :("
+              />
+          <h1 className="mt-10 font-bold text-3xl">No groups here yet!</h1>
+          <h3 className="mt-1 text-gray-500 text-center leading-tight font-light mb-4">Make your watch time productive by groupping channels together</h3>
+          <Button variant="primary" onClick={addGroup}>Add group</Button>
+        </div> 
+        <GroupModal isOpen={isModalOpen} setOpen={setIsModalOpen} />
+      </>
+    )
+  }
+
   return (
     <>
-      <div className="flex flex-row">
-        <div className="flex flex-row gap-4 w-full px-10 py-4 justify-end grow items-center">
+      <div className="flex flex-col items-center md:flex-row">
+        <div className="flex order-2 md:order-1 flex-col md:flex-row gap-4 w-full px-10 py-4 justify-center md:justify-end grow items-center">
           {groups.map((group, i) => 
               <GroupCard 
                   key={"group_card_" + i} 
@@ -138,7 +165,7 @@ const Groups = () => {
                   newContent={group.newContent} 
                   className={clsx(
                     'relative',
-                    'first:after:absolute first:after:left-[-1.5rem] first:after:border-r first:after:border-dashed first:after:block first:after:w-2 first:after:h-8',
+                    'first:after:hidden md:first:after:block first:after:absolute first:after:left-[-1.5rem] first:after:border-r first:after:border-dashed first:after:block first:after:w-2 first:after:h-8',
                     'first:after:border-gray-300',
                   )}
               />
@@ -146,38 +173,38 @@ const Groups = () => {
           <div className={clsx(
               "select-none flex flex-row justify-center h-full rounded items-center",
               "text-gray-400 border border-dashed cursor-pointer transition-all duration-150",
-              "px-3 py-3 w-[100px]",
+              "px-3 py-3 w-full h-14 md:w-[100px]",
               "hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500",
               "relative z-10",
-              'last:after:absolute last:after:right-[-1rem] last:after:border-r last:after:border-dashed last:after:block last:after:w-2 last:after:h-8',
+              'last:after:hidden md:last:after:block last:after:absolute last:after:right-[-1rem] last:after:border-r last:after:border-dashed last:after:block last:after:w-2 last:after:h-8',
               'last:after:border-gray-300',
               )}>
              <h3 className='font-light text-[10px] grow pr-1'>Add new group</h3>
             <TfiPlus size={16} className='flex-none' />
           </div>
         </div>
-        <div className="flex flex-row gap-4 w-fit px-10 py-4 justify-end grow-0">
+        <div className="flex order-1 md:order-2 flex-row gap-4 w-full md:w-fit px-10 py-4 justify-between items-between md:justify-end md:grow-0">
           <FilterCard text='Show watched' icon={<IoIosCheckmarkCircle size={28} />} isActive={filters.isWatched} onClick={(value) => setFilters({ ...filters, isWatched: value})} />
           <FilterCard text='Show hidden' icon={<BiHide size={24} />} isActive={filters.isHidden} onClick={(value) => setFilters({ ...filters, isHidden: value})} />
         </div>
       </div>
       {groups.map((group) => 
         <div key={"group_" + group.id} className='mt-4 mb-8'>
-          <div className="flex flex-row gap-2 items-center mx-10">
-            <a href={group.link} target="_blank" rel="noreferrer" className="hover:underline flex flex-row gap-1 items-center">
-              <h2 className="font-bold text-2xl	">
+          <div className="flex flex-col md:flex-row gap-2 items-center mx-10">
+            <div className="flex flex-row gap-1 items-center">
+              <h2 className="font-bold text-2xl	select-none">
                 {group.name}
               </h2>
               <MdLabel style={{ color: group.color }} className='rotate-180' size={22} />
-            </a>
-            {group.videos.length === 0 && <div className="font-light text-xl text-gray-400"> • you are all caught up ✨</div>}
+            </div>
+            {group.videos.length === 0 && <div className="font-light text-xl select-none text-gray-400"> • you are all caught up ✨</div>}
           </div>
           <div className="flex flex-row gap-8 overflow-auto no-scrollbar py-2.5 px-10">
             {group.videos.map((video) => <VideoCard className='shrink-0' video={video} key={"video_" + video.id} />)}
           </div>
-          <GroupModal isOpen={isModalOpen} setOpen={setIsModalOpen} />
         </div>
       )}
+      <GroupModal isOpen={isModalOpen} setOpen={setIsModalOpen} />
     </>
   )
 }
