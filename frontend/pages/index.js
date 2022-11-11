@@ -6,7 +6,7 @@ const LandingPage = () => {
   const { login } = useUser();
 
   return (
-    <div className="flex flex-col gap-3 items-center justify-center lg:h-screen mt-20 lg:mt-0">
+    <div className="flex flex-col gap-3 items-center p-5 lg:p-2 justify-center lg:h-screen mt-20 lg:mt-0">
       <Image src='/youtube.svg' layout='responsive' height={50} width={220} alt='Youtube' className='mb-4'/>
       <h1 className='font-bold text-5xl text-center'>Subscription Manager</h1>
       <h3 className='text-xl font-light text-center'>Unofficial tool to keep your watch time productive</h3>
