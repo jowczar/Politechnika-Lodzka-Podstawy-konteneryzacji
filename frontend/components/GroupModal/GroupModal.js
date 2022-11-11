@@ -56,16 +56,19 @@ export const GroupModal = ({ isOpen = false, setOpen = () => {}}) => {
     const [pickerListening, setPickerListening] = useState(false);
     const pickerRef = useRef(null);
     const colorRef = useRef(null);
+    const allColorsRef = useRef(colors);
+
+    useEffect(() => {
+        allColorsRef.current = colors;
+    }, [colors]);
     
-    const handleShowPicker = useCallback((state) => {
-        if (colorRef.current && !colors.includes(colorRef.current)) {
-            setColors([ ...colors, colorRef.current ]);
+    const handleShowPicker = (state) => {
+        if (!state && colorRef.current && !allColorsRef.current.includes(colorRef.current)) {
+            setColors([ ...allColorsRef.current, colorRef.current ]);
         }
 
-        console.log(state, colorRef.current, colors);
-
         setShowPicker(state);
-    }, [colors]);
+    }
 
     const deleteChannel = (id) => {
         setChannels(channels.filter(channel => channel.id !== id));
@@ -137,10 +140,9 @@ export const GroupModal = ({ isOpen = false, setOpen = () => {}}) => {
                                         <div  
                                             style={{ background: showPicker ? colorRef.current : 'transparent' }}
                                             className={clsx(
-                                                `w-9 h-9 flex items-center justify-center flex-none rounded cursor-pointer transition-all duration-300`,
+                                                `w-9 h-9 flex items-center justify-center flex-none rounded cursor-pointer transition-none hover:transition-all duration-300`,
                                                 showPicker && 'ring-4 ring-primary',
                                                 !showPicker && [
-                                                    'bg-transparent',
                                                     'border border-dashed transition-all duration-150 text-gray-300',
                                                     'hover:bg-gray-50 hover:text-gray-500 hover:border-gray-500',
                                                 ]
