@@ -91,12 +91,12 @@ const Lists = () => {
     <div className="mt-14">
       {lists.map((list) => 
         <div key={"list_" + list.id} className='mt-4 mb-8'>
-          <div className="flex flex-row gap-2 items-center mx-10">
+          <div className="flex flex-row gap-2 text-center items-center mx-10">
             <a href={list.link} target="_blank" rel="noreferrer" className="hover:underline flex flex-row items-center">
               <h2 className="font-bold text-2xl	">
                 {list.name}
               </h2>
-              <BiLinkExternal size={12} className="hover:scale-125 duration-700 ml-1" />
+              <BiLinkExternal size={12} className="flex-none hover:scale-125 duration-700 ml-1" />
             </a>
             {list.videos.length === 0 && <div className="font-light text-xl text-gray-400"> • no videos</div>}
           </div>
