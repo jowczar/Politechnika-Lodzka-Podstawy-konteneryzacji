@@ -33,6 +33,7 @@ def login(request):
     
     authorization_url, state = flow.authorization_url(
                 access_type='offline',
+                approval_prompt='force',
                 #which email is trying to login?
                 # Enable incremental authorization. Recommended as a         best     practice.
                 include_granted_scopes='true'
@@ -65,41 +66,83 @@ def g_auth_endpoint(request):
     credentials = flow.credentials
     print("CREDENTIALS HERE =====>")
     print(credentials)
-    temp = {
-        'token': credentials.token,
-        'refresh_token': credentials.refresh_token,
-        'id_token':credentials.id_token,
-        'token_uri': credentials.token_uri,
-        'client_id': credentials.client_id,
-        'client_secret': credentials.client_secret,
-        'scopes': credentials.scopes
-    }
-    print(temp)
+    request.session['id_token'] = credentials.id_token
+
+    # temp = {
+    #     'token': credentials.token,
+    #     'refresh_token': credentials.refresh_token,
+    #     'id_token':credentials.id_token,
+    #     'token_uri': credentials.token_uri,
+    #     'client_id': credentials.client_id,
+    #     'client_secret': credentials.client_secret,
+    #     'scopes': credentials.scopes
+    # }
+    # print(temp)
+    # if not User_credentials.objects.get(id_token = credentials.id_token):
+        # s = User_credentials(
+        #     token = credentials.token,
+        #     refresh_token =  credentials.refresh_token,
+        #     id_token = credentials.id_token,
+        #     token_uri = credentials.token_uri,
+        #     client_id = credentials.client_id,
+        #     client_secret = credentials.client_secret,
+        #     scopes = credentials.scopes
+        # )
+        # s.save()
     s = User_credentials(
         token = credentials.token,
         refresh_token =  credentials.refresh_token,
-        id_token =credentials.id_token,
+        id_token = credentials.id_token,
         token_uri = credentials.token_uri,
         client_id = credentials.client_id,
         client_secret = credentials.client_secret,
         scopes = credentials.scopes
     )
     s.save()
-    # mongo-db.manager_user_credentials.save(temp)
-    # User_credentials.insert_many([temp])
-    # count = User_credentials.count()
-    # print(count)
 
+    
     return HttpResponse("<script>alert('success');location.href = 'http://127.0.0.1:8000/channels/'</script>")
 
-def channels(request, credentials):
+def channels(request):
     api_service_name = "youtube"
     api_version = "v3"
+    new_id_token = request.session['id_token']
+    base_id_token = User_credentials.objects.get(id_token = new_id_token)
+    print("BASE TOKEN ===>")
+    print(base_id_token.id_token)
+    print("NEW TOKEN ===>")
+    print(new_id_token)
+    if new_id_token == base_id_token.id_token:
+        cred = User_credentials.objects.get(id_token = new_id_token)
+        print("it is a mach")
+        print(cred)
+        temp = {
+            'token': cred.token,
+            'refresh_token': cred.refresh_token,
+            'id_token':cred.id_token,
+            'token_uri': cred.token_uri,
+            'client_id': cred.client_id,
+            'client_secret': cred.client_secret,
+            'scopes': cred.scopes
+            }
+        print("FUNCKING TEMP ===>")
+        print(temp)
+        credentials = google.oauth2.credentials.Credentials(**temp)
+        print("NEW CREDENTIALS ===>")
+        print(credentials)
+    else: print("not mach")
+    
+
     youtube = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials)
     request = youtube.channels().list(
         part="snippet,contentDetails,statistics",
         mine=True
     )
-    return render(request)
+    r = request.execute()
+
+    print(r)
+
+    # return render(request)
+    return HttpResponse("ok")
   
