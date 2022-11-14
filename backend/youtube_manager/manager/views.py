@@ -90,5 +90,16 @@ def g_auth_endpoint(request):
     # count = User_credentials.count()
     # print(count)
 
-    return HttpResponse('ok')
+    return HttpResponse("<script>alert('success');location.href = 'http://127.0.0.1:8000/channels/'</script>")
+
+def channels(request, credentials):
+    api_service_name = "youtube"
+    api_version = "v3"
+    youtube = googleapiclient.discovery.build(
+        api_service_name, api_version, credentials=credentials)
+    request = youtube.channels().list(
+        part="snippet,contentDetails,statistics",
+        mine=True
+    )
+    return render(request)
   
