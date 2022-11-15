@@ -108,14 +108,14 @@ def channels(request):
     api_version = "v3"
     new_id_token = request.session['id_token']
     base_id_token = User_credentials.objects.get(id_token = new_id_token)
-    print("BASE TOKEN ===>")
-    print(base_id_token.id_token)
-    print("NEW TOKEN ===>")
-    print(new_id_token)
+    # print("BASE TOKEN ===>")
+    # print(base_id_token.id_token)
+    # print("NEW TOKEN ===>")
+    # print(new_id_token)
     if new_id_token == base_id_token.id_token:
         cred = User_credentials.objects.get(id_token = new_id_token)
-        print("it is a mach")
-        print(cred)
+        # print("it is a mach")
+        # print(cred)
         temp = {
             'token': cred.token,
             'refresh_token': cred.refresh_token,
@@ -125,24 +125,77 @@ def channels(request):
             'client_secret': cred.client_secret,
             'scopes': cred.scopes
             }
-        print("FUNCKING TEMP ===>")
-        print(temp)
+        # print("FUNCKING TEMP ===>")
+        # print(temp)
         credentials = google.oauth2.credentials.Credentials(**temp)
-        print("NEW CREDENTIALS ===>")
-        print(credentials)
+        # print("NEW CREDENTIALS ===>")
+        # print(credentials)
     else: print("not mach")
     
 
     youtube = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials)
-    request = youtube.channels().list(
-        part="snippet,contentDetails,statistics",
-        mine=True
+
+    # get list of subscriptions
+    request = youtube.subscriptions().list(
+        part="snippet,contentDetails",
+        mine=True,
     )
     r = request.execute()
 
-    print(r)
+    channel_name = r['items'][0]['snippet']['title']
+    channel_address = r['items'][0]['snippet']['resourceId']['channelId']
+    channel_avatar = r['items'][0]['snippet']['thumbnails']['default']
+    print("__________________________________")
+    print(channel_name,channel_address,channel_avatar)
 
+    # get list of videos from channel 
+    request = youtube.channels().list(
+        part="snippet,contentDetails,statistics",
+        id=channel_address
+    )
+    r = request.execute()
+    uploads = r['items'][0]['contentDetails']['relatedPlaylists']['uploads']
+
+    # get videos
+    request = youtube.playlistItems().list(
+        part="snippet, contentDetails",
+        playlistId=uploads
+    )
+    r = request.execute()
+    
+    # print(r['items'][0]['contentDetails']['relatedPlaylists']['uploads'])
+    # print(channel_name)
+    """
+    ()czego mi trzeba:
+    nazwa kanału snippet.title
+    link do kanału snippet.resourceId.channelId
+    awatar do kanału snippet.thumbnails.(default)
+    
+    ()ostatnio dodane filmy
+    link do filmu snippet.resourceId.videoId 
+    miniaturka snippet.thumbnails.(default) medium high
+    tytuł snippet.title
+    czas trwania contentDetails.endAt
+    nazwa kanału
+    awatar do kanału 
+
+    chanels list
+    id => chanel id
+    z tego biore contentDetails.relatedPlaylists.uploads czyli liste wideo
+        request = youtube.channels().list(
+        part="snippet,contentDetails,statistics",
+        id="UC_7PqixGIdE-jjoHKMPYpGA"
+    )
+    playlist id = uploads
+    playlistitems
+        request = youtube.playlistItems().list(
+        part="snippet",
+        playlistId="UU_7PqixGIdE-jjoHKMPYpGA"
+    )
+
+    czy obejrzane zrobić do tego model
+    """
     # return render(request)
     return HttpResponse("ok")
 
