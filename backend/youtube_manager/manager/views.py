@@ -145,4 +145,10 @@ def channels(request):
 
     # return render(request)
     return HttpResponse("ok")
+
+def lists(response):
+    return HttpResponse("lists ok")
+
+def groups(response):
+    return HttpResponse("groups ok")
   
