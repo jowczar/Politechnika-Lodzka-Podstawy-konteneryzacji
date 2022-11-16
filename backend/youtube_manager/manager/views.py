@@ -1,19 +1,18 @@
-from django.shortcuts import HttpResponse, render, HttpResponseRedirect
-from django.http import JsonResponse
-
 import os
+
+import google.auth.transport.requests
+import google.oauth2.credentials
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import googleapiclient.errors
-import google.oauth2.credentials
-import google.auth.transport.requests
-from django.shortcuts import redirect
-from django.urls import reverse
+from django.conf import settings
 from django.db import models
-
+from django.http import JsonResponse
+from django.shortcuts import (HttpResponse, HttpResponseRedirect, redirect,
+                              render)
+from django.urls import reverse
 
 from manager.models import User_credentials
-from django.conf import settings
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 REDIRECT_URI = "http://127.0.0.1:8000/auth/"
@@ -139,17 +138,55 @@ def channels(request):
         api_service_name, api_version, credentials=credentials)
 
     # get list of subscriptions
+    # subscriptions = []
+    sub = []
     request = youtube.subscriptions().list(
         part="snippet,contentDetails",
         mine=True,
     )
     r = request.execute()
 
-    channel_name = r['items'][0]['snippet']['title']
-    channel_address = r['items'][0]['snippet']['resourceId']['channelId']
-    channel_avatar = r['items'][0]['snippet']['thumbnails']['default']
-    print("______________channel_name,channel_address,channel_avatar")
-    print(channel_name,channel_address,channel_avatar)
+    for i in range(len(r['items'])):
+        # print("RES===> ", r['items'][i])
+        channel_address = r['items'][i]['snippet']['resourceId']['channelId']
+        subscriptions = {
+            'channel_name' : r['items'][i]['snippet']['title'],
+            'channel_address' : r['items'][i]['snippet']['resourceId']['channelId'],
+            'channel_avatar' : r['items'][i]['snippet']['thumbnails']['default']
+            } 
+        sub.append(subscriptions)
+
+    next_page = r.get('nextPageToken')
+    more_pages = True
+
+    while more_pages:
+        if next_page is None:
+            more_pages = False
+        else:
+            request = youtube.subscriptions().list(
+                part="snippet,contentDetails",
+                mine=True,
+                pageToken=r['nextPageToken']
+            )
+            r = request.execute()
+
+            for i in range(len(r['items'])):
+                subscriptions = {
+                    'channel_name' : r['items'][i]['snippet']['title'],
+                    'channel_address' : r['items'][i]['snippet']['resourceId']['channelId'],
+                    'channel_avatar' : r['items'][i]['snippet']['thumbnails']['default']
+                    }
+                # print("RES===> ", r['items'][i])
+                sub.append(subscriptions)
+
+            next_page = r.get('nextPageToken')
+
+    print("SUBS XXXXXXXXXXX",sub)
+    # channel_name = r['items'][0]['snippet']['title']
+    # channel_address = r['items'][0]['snippet']['resourceId']['channelId']
+    # channel_avatar = r['items'][0]['snippet']['thumbnails']['default']
+    # print("______________channel_name,channel_address,channel_avatar")
+    # print(channel_name,channel_address,channel_avatar)
 
     # get list of videos from channel 
     request = youtube.channels().list(
@@ -175,8 +212,8 @@ def channels(request):
     )
     r = request.execute()
     video_duration = r['items'][0]['contentDetails']['duration']
-    print("______________video_address, video_thumbnails, video_title, video_duration")
-    print(video_address, video_thumbnails, video_title, video_duration)
+    # print("______________video_address, video_thumbnails, video_title, video_duration")
+    # print(video_address, video_thumbnails, video_title, video_duration)
     """
     ()czego mi trzeba:
     nazwa kanału snippet.title
