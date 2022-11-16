@@ -1,4 +1,5 @@
 from django.shortcuts import HttpResponse, render, HttpResponseRedirect
+from django.http import JsonResponse
 
 import os
 import google_auth_oauthlib.flow
@@ -9,6 +10,7 @@ import google.auth.transport.requests
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.db import models
+
 
 from manager.models import User_credentials
 from django.conf import settings
@@ -146,7 +148,7 @@ def channels(request):
     channel_name = r['items'][0]['snippet']['title']
     channel_address = r['items'][0]['snippet']['resourceId']['channelId']
     channel_avatar = r['items'][0]['snippet']['thumbnails']['default']
-    print("__________________________________")
+    print("______________channel_name,channel_address,channel_avatar")
     print(channel_name,channel_address,channel_avatar)
 
     # get list of videos from channel 
@@ -163,9 +165,18 @@ def channels(request):
         playlistId=uploads
     )
     r = request.execute()
-    
-    # print(r['items'][0]['contentDetails']['relatedPlaylists']['uploads'])
-    # print(channel_name)
+    video_address = r['items'][0]['snippet']['resourceId']['videoId']
+    video_thumbnails = r['items'][0]['snippet']['thumbnails']['default']
+    video_title = r['items'][0]['snippet']['title']
+    # get video duration
+    request = youtube.videos().list(
+        part="snippet,contentDetails",
+        id=video_address
+    )
+    r = request.execute()
+    video_duration = r['items'][0]['contentDetails']['duration']
+    print("______________video_address, video_thumbnails, video_title, video_duration")
+    print(video_address, video_thumbnails, video_title, video_duration)
     """
     ()czego mi trzeba:
     nazwa kanału snippet.title
@@ -199,9 +210,16 @@ def channels(request):
     # return render(request)
     return HttpResponse("ok")
 
-def lists(response):
+def lists(request):
+    x = "po odswiezeniu"
+    print(x)
+    if request.method == 'GET':
+        print("w ifie")
+        return HttpResponse("you ask get")
+
     return HttpResponse("lists ok")
 
-def groups(response):
+def groups(request):
+
     return HttpResponse("groups ok")
   
