@@ -109,33 +109,6 @@ def channels(request):
     api_version = "v3"
     new_id_token = request.session['id_token']
     base_id_token = User_credentials.objects.get(id_token = new_id_token)
-    print("BASE TOKEN ===>")
-    print(base_id_token.id_token)
-    print("NEW TOKEN ===>")
-    print(new_id_token)
-    if new_id_token == base_id_token.id_token:
-        cred = User_credentials.objects.get(id_token = new_id_token)
-        print("it is a mach")
-        print(cred)
-        temp = {
-            'token': cred.token,
-            'refresh_token': cred.refresh_token,
-            'id_token':cred.id_token,
-            'token_uri': cred.token_uri,
-            'client_id': cred.client_id,
-            'client_secret': cred.client_secret,
-            'scopes': cred.scopes
-            }
-        print("FUNCKING TEMP ===>")
-        print(temp)
-        credentials = google.oauth2.credentials.Credentials(**temp)
-        print("NEW CREDENTIALS ===>")
-        print(credentials)
-    else: print("not mach")
-    
-
-    new_id_token = request.session['id_token']
-    base_id_token = User_credentials.objects.get(id_token = new_id_token)
     # print("BASE TOKEN ===>")
     # print(base_id_token.id_token)
     # print("NEW TOKEN ===>")
@@ -220,12 +193,6 @@ def channels(request):
         part="snippet,contentDetails,statistics",
         id=channel_address
     )
-    r = request.execute()
-
-    print(r)
-
-    # return render(request)
-    return HttpResponse("ok")
     r = request.execute()
     uploads = r['items'][0]['contentDetails']['relatedPlaylists']['uploads']
 
