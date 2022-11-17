@@ -1,4 +1,7 @@
+import json
 import os
+from dotenv import load_dotenv
+
 
 import google.auth.transport.requests
 import google.oauth2.credentials
@@ -14,9 +17,12 @@ from django.urls import reverse
 
 from manager.models import User_credentials
 
+load_dotenv("../youtube_manager/.env")
+
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
-REDIRECT_URI = "http://127.0.0.1:8000/auth/"
-client_secrets_file = "client_secret.json"
+REDIRECT_URI = os.getenv('REDIRECT_URI')
+client_secrets_file = json.loads(os.getenv('CLIENT_SECRET'))
+
 # Create your views here.
 def index(request):
     return render(request, 'manager/index.html')
@@ -27,8 +33,10 @@ def login(request):
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
     os.environ["OAUTHLIB_RELAX_TOKEN_SCOPE"] = "0"
     # Get credentials and create an API client
-    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-        client_secrets_file, scopes)
+    flow = google_auth_oauthlib.flow.Flow.from_client_config(
+        client_config = client_secrets_file, scopes = scopes)
+    # flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
+    #     client_secrets_file = client_secrets_file, scopes = scopes)
 
     flow.redirect_uri = REDIRECT_URI
     
@@ -55,8 +63,8 @@ def g_auth_endpoint(request):
     state = request.GET.get('state',None)
 
 
-    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-        client_secrets_file, scopes, state=state)
+    flow = google_auth_oauthlib.flow.Flow.from_client_config(
+        client_config = client_secrets_file, scopes = scopes)
     flow.redirect_uri = REDIRECT_URI
 
     #get the full URL that we are on, including all the "?param1=token&param2=key" parameters that google has sent us.
@@ -65,8 +73,8 @@ def g_auth_endpoint(request):
     flow.fetch_token(authorization_response=authorization_response)
 
     credentials = flow.credentials
-    print("CREDENTIALS HERE =====>")
-    print(credentials)
+    # print("CREDENTIALS HERE =====>")
+    # print(credentials)
     request.session['id_token'] = credentials.id_token
 
     # temp = {
@@ -291,7 +299,8 @@ def channels(request):
     return JsonResponse(videos_list, safe=False)
 
 def lists(request):
-
+    print("JSON: ", x)
+    print("JSON2: ", client_secrets_file)
     return HttpResponse("lists ok")
 
 def groups(request):
