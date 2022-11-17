@@ -181,38 +181,79 @@ def channels(request):
 
             next_page = r.get('nextPageToken')
 
-    print("SUBS XXXXXXXXXXX",sub)
-    
+    # print("SUBS XXXXXXXXXXX",sub)
+    print(len(sub))
     # channel_name = r['items'][0]['snippet']['title']
     # channel_address = r['items'][0]['snippet']['resourceId']['channelId']
     # channel_avatar = r['items'][0]['snippet']['thumbnails']['default']
     # print("______________channel_name,channel_address,channel_avatar")
     # print(channel_name,channel_address,channel_avatar)
+    videos_list = []
+    video_address = []
+    for i in range(len(sub)):
+        request = youtube.channels().list(
+            part="snippet,contentDetails,statistics",
+            id=sub[i]['channel_address']
+        )
+        r = request.execute()
+        uploads = r['items'][0]['contentDetails']['relatedPlaylists']['uploads']
 
-    # get list of videos from channel 
-    request = youtube.channels().list(
-        part="snippet,contentDetails,statistics",
-        id=channel_address
-    )
-    r = request.execute()
-    uploads = r['items'][0]['contentDetails']['relatedPlaylists']['uploads']
+        request = youtube.playlistItems().list(
+            part="snippet, contentDetails",
+            playlistId=uploads
+        )
+        r = request.execute()
+        print(len(r['items']))
+        # download 5 videos
+        for j in range(len(r['items'])):
+            video_address.append(r['items'][j]['snippet']['resourceId']['videoId'])
+        print(video_address)
+        # download info from that 5 videos
+        request = youtube.videos().list(
+            part="snippet,contentDetails",
+            id=video_address
+        )
+        rd = request.execute()
+        for k in range(len(video_address)):
+            temp = {
+                'chanel_name' : sub[i]['channel_name'],
+                'videos' : {
+                    'video_address' : r['items'][k]['snippet']['resourceId']['videoId'],
+                    'video_thumbnails' : r['items'][k]['snippet']['thumbnails']['default'],
+                    'video_title' : r['items'][k]['snippet']['title'],
+                    'video_duration' : rd['items'][k]['contentDetails']['duration']
+                }
+            }
+            videos_list.append(temp)
+            video_address.clear()
 
-    # get videos
-    request = youtube.playlistItems().list(
-        part="snippet, contentDetails",
-        playlistId=uploads
-    )
-    r = request.execute()
-    video_address = r['items'][0]['snippet']['resourceId']['videoId']
-    video_thumbnails = r['items'][0]['snippet']['thumbnails']['default']
-    video_title = r['items'][0]['snippet']['title']
-    # get video duration
-    request = youtube.videos().list(
-        part="snippet,contentDetails",
-        id=video_address
-    )
-    r = request.execute()
-    video_duration = r['items'][0]['contentDetails']['duration']
+    # print(videos_list)
+        
+    ###### get list of videos from channel 
+    # request = youtube.channels().list(
+    #     part="snippet,contentDetails,statistics",
+    #     id=channel_address
+    # )
+    # r = request.execute()
+    # uploads = r['items'][0]['contentDetails']['relatedPlaylists']['uploads']
+
+    ###### get videos
+    # request = youtube.playlistItems().list(
+    #     part="snippet, contentDetails",
+    #     playlistId=uploads
+    # )
+    # r = request.execute()
+    # video_address = r['items'][0]['snippet']['resourceId']['videoId']
+    # video_thumbnails = r['items'][0]['snippet']['thumbnails']['default']
+    # video_title = r['items'][0]['snippet']['title']
+
+    ###### get video duration
+    # request = youtube.videos().list(
+    #     part="snippet,contentDetails",
+    #     id=video_address
+    # )
+    # r = request.execute()
+    # video_duration = r['items'][0]['contentDetails']['duration']
     # print("______________video_address, video_thumbnails, video_title, video_duration")
     # print(video_address, video_thumbnails, video_title, video_duration)
     """
@@ -247,14 +288,9 @@ def channels(request):
     """
     # return render(request)
     # return HttpResponse("ok")
-    return JsonResponse(sub, safe=False)
+    return JsonResponse(videos_list, safe=False)
 
 def lists(request):
-    x = "po odswiezeniu"
-    print(x)
-    if request.method == 'GET':
-        print("w ifie")
-        return HttpResponse("you ask get")
 
     return HttpResponse("lists ok")
 
