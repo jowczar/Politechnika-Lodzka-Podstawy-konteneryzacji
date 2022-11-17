@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -105,7 +108,7 @@ DATABASES = {
         'NAME': 'mongo-db',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-                'host': 'mongodb+srv://admin:Kurwa123@cluster0.lyyvjwa.mongodb.net/?retryWrites=true&w=majority',
+                'host': 'mongodb+srv://'+os.getenv('DB_USERNAME')+':'+os.getenv('DB_PASSWORD')+'@cluster0.lyyvjwa.mongodb.net/?retryWrites=true&w=majority',
                 'authMechanism': 'SCRAM-SHA-1'
 
             }  
