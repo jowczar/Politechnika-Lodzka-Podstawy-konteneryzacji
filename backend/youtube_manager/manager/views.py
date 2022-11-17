@@ -182,6 +182,7 @@ def channels(request):
             next_page = r.get('nextPageToken')
 
     print("SUBS XXXXXXXXXXX",sub)
+    
     # channel_name = r['items'][0]['snippet']['title']
     # channel_address = r['items'][0]['snippet']['resourceId']['channelId']
     # channel_avatar = r['items'][0]['snippet']['thumbnails']['default']
@@ -245,7 +246,8 @@ def channels(request):
     czy obejrzane zrobić do tego model
     """
     # return render(request)
-    return HttpResponse("ok")
+    # return HttpResponse("ok")
+    return JsonResponse(sub, safe=False)
 
 def lists(request):
     x = "po odswiezeniu"
