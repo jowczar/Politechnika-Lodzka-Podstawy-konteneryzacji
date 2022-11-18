@@ -145,8 +145,7 @@ def channels(request):
     youtube = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials)
 
-    # get list of subscriptions
-    # subscriptions = []
+    ##### get list of subscriptions
     sub = []
     request = youtube.subscriptions().list(
         part="snippet,contentDetails",
@@ -198,14 +197,16 @@ def channels(request):
     # print(channel_name,channel_address,channel_avatar)
     videos_list = []
     video_address = []
+    videos_all = []
     for i in range(len(sub)):
+        ###### get list of videos from channel 
         request = youtube.channels().list(
             part="snippet,contentDetails,statistics",
             id=sub[i]['channel_address']
         )
         r = request.execute()
         uploads = r['items'][0]['contentDetails']['relatedPlaylists']['uploads']
-
+        ###### get videos
         request = youtube.playlistItems().list(
             part="snippet, contentDetails",
             playlistId=uploads
@@ -222,10 +223,12 @@ def channels(request):
             id=video_address
         )
         rd = request.execute()
+        temp_chanel_name = {'chanel_name' : sub[i]['channel_name']}
+        videos_list.clear()
         for k in range(len(video_address)):
             temp = {
-                'chanel_name' : sub[i]['channel_name'],
-                'videos' : {
+                # 'chanel_name' : sub[i]['channel_name'],
+                'video' : {
                     'video_address' : r['items'][k]['snippet']['resourceId']['videoId'],
                     'video_thumbnails' : r['items'][k]['snippet']['thumbnails']['default'],
                     'video_title' : r['items'][k]['snippet']['title'],
@@ -233,7 +236,20 @@ def channels(request):
                 }
             }
             videos_list.append(temp)
-            video_address.clear()
+        temp_chanel_name["videos"] = videos_list
+        videos_all.append(temp_chanel_name)
+        video_address.clear()
+     
+    # print("videos all: ", videos_all)
+
+    ##### Save data into database
+    for video in videos_all:
+        print("chanel name-> ", video['chanel_name'])
+        # print("video data-> ", video['videos'])
+        for vid_data in video['videos']:
+            print(vid_data['video']['video_address'])
+        # for i in range(len(video['videos'])):
+        #     print(video['videos']['video'][i]['video_address'])
 
     # print(videos_list)
         
@@ -296,7 +312,7 @@ def channels(request):
     """
     # return render(request)
     # return HttpResponse("ok")
-    return JsonResponse(videos_list, safe=False)
+    return JsonResponse(videos_all, safe=False)
 
 def lists(request):
     print("JSON: ", x)
