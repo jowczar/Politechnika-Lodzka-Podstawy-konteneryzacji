@@ -9,5 +9,5 @@ urlpatterns = [
     path('channels/', views.channels, name='channels'),
     path('lists/', views.lists, name='lists'),
     path('groups/', views.groups, name='groups'),
-    path('channels_db/', views.channels_db, name='channels_db'),
+    path('channels_db/', views.get_all_videos_from_channel, name='channels_db'),
 ]

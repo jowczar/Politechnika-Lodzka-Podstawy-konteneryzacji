@@ -319,12 +319,19 @@ def channels(request):
     # return HttpResponse("ok")
     return JsonResponse(videos_all, safe=False)
 
-def channels_db(request):
-    return HttpResponse("channels db ok")
+def get_all_videos_from_channel(request):
+    # if request.method == 'GET':
+    names = []
+    video_list = Video_list.objects.all()
+    for video in video_list:
+        names.append(video.channel_name)
+
+    # return JsonResponse(data, safe=False)
+    # return render(request, {"data": data})
+    return HttpResponse("kej")
 
 def lists(request):
-    print("JSON: ", x)
-    print("JSON2: ", client_secrets_file)
+
     return HttpResponse("lists ok")
 
 def groups(request):

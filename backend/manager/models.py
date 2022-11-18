@@ -18,6 +18,7 @@ class Video_list(models.Model):
     video_hide = models.BooleanField()
     video_watch = models.BooleanField()
 
+
 class Subscriptions_list(models.Model):
     channel_name = models.CharField(max_length=250)
     channel_address = models.CharField(max_length=250)
