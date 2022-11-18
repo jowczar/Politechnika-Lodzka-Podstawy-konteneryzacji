@@ -11,11 +11,12 @@ import googleapiclient.errors
 from django.conf import settings
 from django.db import models
 from django.http import JsonResponse
-from django.shortcuts import (HttpResponse, HttpResponseRedirect, redirect,
-                              render)
+from django.shortcuts import (HttpResponse, HttpResponseRedirect, redirect, render)
 from django.urls import reverse
 
-from manager.models import User_credentials
+# MODELS
+from manager.models import User_credentials, Video_list, Subscriptions_list
+
 
 load_dotenv("../youtube_manager/.env")
 
@@ -223,11 +224,11 @@ def channels(request):
             id=video_address
         )
         rd = request.execute()
-        temp_chanel_name = {'chanel_name' : sub[i]['channel_name']}
+        temp_channel_name = {'channel_name' : sub[i]['channel_name']}
         videos_list.clear()
         for k in range(len(video_address)):
             temp = {
-                # 'chanel_name' : sub[i]['channel_name'],
+                # 'channel_name' : sub[i]['channel_name'],
                 'video' : {
                     'video_address' : r['items'][k]['snippet']['resourceId']['videoId'],
                     'video_thumbnails' : r['items'][k]['snippet']['thumbnails']['default'],
@@ -236,22 +237,26 @@ def channels(request):
                 }
             }
             videos_list.append(temp)
-        temp_chanel_name["videos"] = videos_list
-        videos_all.append(temp_chanel_name)
+        temp_channel_name["videos"] = videos_list
+        videos_all.append(temp_channel_name)
         video_address.clear()
      
     # print("videos all: ", videos_all)
 
     ##### Save data into database
     for video in videos_all:
-        print("chanel name-> ", video['chanel_name'])
-        # print("video data-> ", video['videos'])
         for vid_data in video['videos']:
-            print(vid_data['video']['video_address'])
-        # for i in range(len(video['videos'])):
-        #     print(video['videos']['video'][i]['video_address'])
-
-    # print(videos_list)
+            s = Video_list(
+                channel_name = video['channel_name'],
+                video_address = vid_data['video']['video_address'],
+                video_thumbnails = vid_data['video']['video_thumbnails'],
+                video_title = vid_data['video']['video_title'],
+                video_duration = vid_data['video']['video_duration'],
+                video_hide = False,
+                video_watch = False
+            )
+            # print(vid_data['video']['video_address'])
+            s.save()
         
     ###### get list of videos from channel 
     # request = youtube.channels().list(
@@ -294,8 +299,8 @@ def channels(request):
     nazwa kanału
     awatar do kanału 
 
-    chanels list
-    id => chanel id
+    channels list
+    id => channel id
     z tego biore contentDetails.relatedPlaylists.uploads czyli liste wideo
         request = youtube.channels().list(
         part="snippet,contentDetails,statistics",
@@ -313,6 +318,9 @@ def channels(request):
     # return render(request)
     # return HttpResponse("ok")
     return JsonResponse(videos_all, safe=False)
+
+def channels_db(request):
+    return HttpResponse("channels db ok")
 
 def lists(request):
     print("JSON: ", x)
