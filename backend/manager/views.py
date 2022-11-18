@@ -307,3 +307,5 @@ def groups(request):
 
     return HttpResponse("groups ok")
   
+def healthcheck(request):
+    return JsonResponse({ 'healthcheck': 'ok' })

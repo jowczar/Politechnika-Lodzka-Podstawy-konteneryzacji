@@ -108,7 +108,7 @@ DATABASES = {
         'NAME': 'mongo-db',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-                'host': 'mongodb+srv://'+os.getenv('DB_USERNAME')+':'+os.getenv('DB_PASSWORD')+'@cluster0.lyyvjwa.mongodb.net/?retryWrites=true&w=majority',
+                'host': os.getenv('DB_CONNECTION_STRING'),
                 'authMechanism': 'SCRAM-SHA-1'
 
             }  

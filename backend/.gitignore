@@ -1,4 +1,4 @@
-/youtube_manager/.vscode
-/youtube_manager/youtube_manager/__pycache__
-/youtube_manager/manager/__pycache__
-/youtube_manager/youtube_manager/.env
+.vscode
+__pycache__
+.env
+.DS_Store
