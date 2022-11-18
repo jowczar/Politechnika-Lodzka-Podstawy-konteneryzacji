@@ -1,15 +1,14 @@
 # Politechnika-Lodzka-Podstawy-konteneryzacji
 
-## Install packages
-
-### Make sure you have Django installed
-
-`python -m django --version`
-`python -m pip install Django`
-
-### Install requirements
+## Install requirements
 
 `pip install -r requirements`
+
+## Copy .env.example to .env file
+
+`cp .env.example .env`
+
+You should fill .env with own values
 
 ## Run dev server
 
