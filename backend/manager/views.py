@@ -2,7 +2,7 @@ import json
 import os
 from dotenv import load_dotenv
 
-
+from django.db import transaction
 import google.auth.transport.requests
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
@@ -13,12 +13,22 @@ from django.db import models
 from django.http import JsonResponse
 from django.shortcuts import (HttpResponse, HttpResponseRedirect, redirect, render)
 from django.urls import reverse
-
+import pymongo
 # MODELS
-from manager.models import User_credentials, Video_list, Subscriptions_list
+# from manager.models import User_credentials, Video_list, Subscriptions_list, Author, Entry
+
 
 
 load_dotenv("../youtube_manager/.env")
+
+# DB HANDLER
+connect_string = os.getenv('DB_CONNECT')
+my_client = pymongo.MongoClient(connect_string)
+dbname = my_client['mongo-db']
+
+
+
+
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 REDIRECT_URI = os.getenv('REDIRECT_URI')
@@ -330,7 +340,16 @@ def get_all_videos_from_channel(request):
     # return render(request, {"data": data})
     return HttpResponse("kej")
 
+@transaction.atomic
 def lists(request):
+    p1 = Author(name = "Joe")
+    p1.save()
+    e1 = Entry(
+        title = "QWE"
+
+    )
+    e1.save()
+    e1.authors.add(Author.objects.get(name="Joe"))
 
     return HttpResponse("lists ok")
 
