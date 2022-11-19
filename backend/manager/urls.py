@@ -10,4 +10,5 @@ urlpatterns = [
     path('lists/', views.lists, name='lists'),
     path('groups/', views.groups, name='groups'),
     path('healthcheck/', views.healthcheck, name='healthcheck'),
+    path('channels_db/', views.get_all_videos_from_channel, name='channels_db'),
 ]

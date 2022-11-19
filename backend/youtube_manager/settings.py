@@ -103,16 +103,16 @@ WSGI_APPLICATION = 'youtube_manager.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'mongo-db',
-        'ENFORCE_SCHEMA': False,
-        'CLIENT': {
-                'host': os.getenv('DB_CONNECTION_STRING'),
-                'authMechanism': 'SCRAM-SHA-1'
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'mongo-db',
+#         'ENFORCE_SCHEMA': False,
+#         'CLIENT': {
+#                 'host': 'mongodb+srv://'+os.getenv('DB_USERNAME')+':'+os.getenv('DB_PASSWORD')+'@cluster0.lyyvjwa.mongodb.net/?retryWrites=true&w=majority',
+#                 'authMechanism': 'SCRAM-SHA-1'
 
-            }  
-    }
+#             }  
+#     }
 }
 
 
