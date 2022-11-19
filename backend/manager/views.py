@@ -2,7 +2,7 @@ import json
 import os
 from dotenv import load_dotenv
 
-
+from django.db import transaction
 import google.auth.transport.requests
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
@@ -11,13 +11,25 @@ import googleapiclient.errors
 from django.conf import settings
 from django.db import models
 from django.http import JsonResponse
-from django.shortcuts import (HttpResponse, HttpResponseRedirect, redirect,
-                              render)
+from django.shortcuts import (HttpResponse, HttpResponseRedirect, redirect, render)
 from django.urls import reverse
+import pymongo
+# MODELS
+# from manager.models import User_credentials, Video_list, Subscriptions_list, Author, Entry
 
-from manager.models import User_credentials
+
 
 load_dotenv("../youtube_manager/.env")
+
+# DB HANDLER
+connect_string = os.getenv('DB_CONNECT')
+my_client = pymongo.MongoClient(connect_string)
+dbname = my_client['mongo-db']
+
+
+User_credentials = dbname["User_credentials"]
+
+
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 REDIRECT_URI = os.getenv('REDIRECT_URI')
@@ -77,15 +89,17 @@ def g_auth_endpoint(request):
     # print(credentials)
     request.session['id_token'] = credentials.id_token
 
-    # temp = {
-    #     'token': credentials.token,
-    #     'refresh_token': credentials.refresh_token,
-    #     'id_token':credentials.id_token,
-    #     'token_uri': credentials.token_uri,
-    #     'client_id': credentials.client_id,
-    #     'client_secret': credentials.client_secret,
-    #     'scopes': credentials.scopes
-    # }
+    credentials = {
+        'token': credentials.token,
+        'refresh_token': credentials.refresh_token,
+        'id_token':credentials.id_token,
+        'token_uri': credentials.token_uri,
+        'client_id': credentials.client_id,
+        'client_secret': credentials.client_secret,
+        'scopes': credentials.scopes
+    }
+    User_credentials.insert(credentials)
+    User_credentials.find({token_uri})
     # print(temp)
     # if not User_credentials.objects.get(id_token = credentials.id_token):
         # s = User_credentials(
@@ -98,16 +112,16 @@ def g_auth_endpoint(request):
         #     scopes = credentials.scopes
         # )
         # s.save()
-    s = User_credentials(
-        token = credentials.token,
-        refresh_token =  credentials.refresh_token,
-        id_token = credentials.id_token,
-        token_uri = credentials.token_uri,
-        client_id = credentials.client_id,
-        client_secret = credentials.client_secret,
-        scopes = credentials.scopes
-    )
-    s.save()
+    # s = User_credentials(
+    #     token = credentials.token,
+    #     refresh_token =  credentials.refresh_token,
+    #     id_token = credentials.id_token,
+    #     token_uri = credentials.token_uri,
+    #     client_id = credentials.client_id,
+    #     client_secret = credentials.client_secret,
+    #     scopes = credentials.scopes
+    # )
+    # s.save()
 
     
     return HttpResponse("<script>alert('success');location.href = 'http://127.0.0.1:8000/channels/'</script>")
@@ -116,24 +130,27 @@ def channels(request):
     api_service_name = "youtube"
     api_version = "v3"
     new_id_token = request.session['id_token']
-    base_id_token = User_credentials.objects.get(id_token = new_id_token)
+    print("new token >>>>>", new_id_token)
+
+    credentials = User_credentials.find()
+    
+
     # print("BASE TOKEN ===>")
     # print(base_id_token.id_token)
     # print("NEW TOKEN ===>")
     # print(new_id_token)
-    if new_id_token == base_id_token.id_token:
-        cred = User_credentials.objects.get(id_token = new_id_token)
-        # print("it is a mach")
-        # print(cred)
-        temp = {
-            'token': cred.token,
-            'refresh_token': cred.refresh_token,
-            'id_token':cred.id_token,
-            'token_uri': cred.token_uri,
-            'client_id': cred.client_id,
-            'client_secret': cred.client_secret,
-            'scopes': cred.scopes
-            }
+
+    if User_credentials.find({token: new_id_token}):
+        for cred in credential:
+            temp = {
+                'token': cred['token'],
+                'refresh_token': cred['refresh_token'],
+                'id_token':cred['id_token'],
+                'token_uri': cred['token_uri'],
+                'client_id': cred['client_id'],
+                'client_secret': cred['client_secret'],
+                'scopes': cred['scopes']
+                }
         # print("FUNCKING TEMP ===>")
         # print(temp)
         credentials = google.oauth2.credentials.Credentials(**temp)
@@ -145,8 +162,7 @@ def channels(request):
     youtube = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials)
 
-    # get list of subscriptions
-    # subscriptions = []
+    ##### get list of subscriptions
     sub = []
     request = youtube.subscriptions().list(
         part="snippet,contentDetails",
@@ -198,14 +214,16 @@ def channels(request):
     # print(channel_name,channel_address,channel_avatar)
     videos_list = []
     video_address = []
+    videos_all = []
     for i in range(len(sub)):
+        ###### get list of videos from channel 
         request = youtube.channels().list(
             part="snippet,contentDetails,statistics",
             id=sub[i]['channel_address']
         )
         r = request.execute()
         uploads = r['items'][0]['contentDetails']['relatedPlaylists']['uploads']
-
+        ###### get videos
         request = youtube.playlistItems().list(
             part="snippet, contentDetails",
             playlistId=uploads
@@ -222,10 +240,12 @@ def channels(request):
             id=video_address
         )
         rd = request.execute()
+        temp_channel_name = {'channel_name' : sub[i]['channel_name']}
+        videos_list.clear()
         for k in range(len(video_address)):
             temp = {
-                'chanel_name' : sub[i]['channel_name'],
-                'videos' : {
+                # 'channel_name' : sub[i]['channel_name'],
+                'video' : {
                     'video_address' : r['items'][k]['snippet']['resourceId']['videoId'],
                     'video_thumbnails' : r['items'][k]['snippet']['thumbnails']['default'],
                     'video_title' : r['items'][k]['snippet']['title'],
@@ -233,9 +253,26 @@ def channels(request):
                 }
             }
             videos_list.append(temp)
-            video_address.clear()
+        temp_channel_name["videos"] = videos_list
+        videos_all.append(temp_channel_name)
+        video_address.clear()
+     
+    # print("videos all: ", videos_all)
 
-    # print(videos_list)
+    ##### Save data into database
+    for video in videos_all:
+        for vid_data in video['videos']:
+            s = Video_list(
+                channel_name = video['channel_name'],
+                video_address = vid_data['video']['video_address'],
+                video_thumbnails = vid_data['video']['video_thumbnails'],
+                video_title = vid_data['video']['video_title'],
+                video_duration = vid_data['video']['video_duration'],
+                video_hide = False,
+                video_watch = False
+            )
+            # print(vid_data['video']['video_address'])
+            s.save()
         
     ###### get list of videos from channel 
     # request = youtube.channels().list(
@@ -278,8 +315,8 @@ def channels(request):
     nazwa kanału
     awatar do kanału 
 
-    chanels list
-    id => chanel id
+    channels list
+    id => channel id
     z tego biore contentDetails.relatedPlaylists.uploads czyli liste wideo
         request = youtube.channels().list(
         part="snippet,contentDetails,statistics",
@@ -296,12 +333,99 @@ def channels(request):
     """
     # return render(request)
     # return HttpResponse("ok")
-    return JsonResponse(videos_list, safe=False)
+    return JsonResponse(videos_all, safe=False)
+
+def get_all_videos_from_channel(request):
+    # if request.method == 'GET':
+    names = []
+    video_list = Video_list.objects.all()
+    for video in video_list:
+        names.append(video.channel_name)
+
+    # return JsonResponse(data, safe=False)
+    # return render(request, {"data": data})
+    return HttpResponse("kej")
 
 def lists(request):
-    print("JSON: ", x)
-    print("JSON2: ", client_secrets_file)
-    return HttpResponse("lists ok")
+    lists = [
+        {
+            'id': 1,
+            'name': 'Spoko cardio',
+            'link': 'https://www.youtube.com/playlist?list=RDCLAK5uy_lBNUteBRencHzKelu5iDHwLF6mYqjL-JU&playnext=1&index=1',
+            'videos': [
+            {
+                'link': 'https://youtu.be/VaZU37y2T_Q',
+                'thumbnail': 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
+                'title': 'Dlaczego liście tak robią?', 
+                'duration': '18:33', 
+                'uploadTime': '2011-10-05T14:48:00.000Z', 
+                'channelName': 'Uwaga! Naukowy bełkot', 
+                'channelAvatar': 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
+                'isWatched': False, 
+                'isHidden': False 
+            },
+            {
+                'link': 'https://youtu.be/VaZU37y2T_Q',
+                'thumbnail': 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
+                'title': 'Dlaczego liście tak robią?', 
+                'duration': '18:33', 
+                'uploadTime': '2011-10-05T14:48:00.000Z', 
+                'channelName': 'Uwaga! Naukowy bełkot', 
+                'channelAvatar': 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
+                'isWatched': False, 
+                'isHidden': False 
+            },
+            {
+                'link': 'https://youtu.be/VaZU37y2T_Q',
+                'thumbnail': 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
+                'title': 'Dlaczego liście tak robią?', 
+                'duration': '18:33', 
+                'uploadTime': '2011-10-05T14:48:00.000Z', 
+                'channelName': 'Uwaga! Naukowy bełkot', 
+                'channelAvatar': 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
+                'isWatched': False, 
+                'isHidden': False 
+            },
+            {
+                'link': 'https://youtu.be/VaZU37y2T_Q',
+                'thumbnail': 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
+                'title': 'Dlaczego liście tak robią?', 
+                'duration': '18:33', 
+                'uploadTime': '2011-10-05T14:48:00.000Z', 
+                'channelName': 'Uwaga! Naukowy bełkot', 
+                'channelAvatar': 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
+                'isWatched': False, 
+                'isHidden': False 
+            },
+            {
+                'link': 'https://youtu.be/VaZU37y2T_Q',
+                'thumbnail': 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
+                'title': 'Dlaczego liście tak robią?', 
+                'duration': '18:33', 
+                'uploadTime': '2011-10-05T14:48:00.000Z', 
+                'channelName': 'Uwaga! Naukowy bełkot', 
+                'channelAvatar': 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
+                'isWatched': False, 
+                'isHidden': False 
+            }
+        ]
+    }]
+    return JsonResponse(lists, safe=False)
+
+    # credentials = dbname.User_credentials.find({'token_uri': 'asd' })
+    # for cred in credentials:
+    #     print()
+    # cred['token_uri']
+    # link = "https://oauth2.googleapis.com/token"
+    # query = {}
+    # if User_credentials.find():
+    #     print("znalazło")
+    # else:
+    #     print("nope")
+
+    # # for t in x:
+    # #     print(t['token'])
+    # return HttpResponse("lists ok")
 
 def groups(request):
 
