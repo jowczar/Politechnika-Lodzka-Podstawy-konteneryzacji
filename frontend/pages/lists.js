@@ -5,7 +5,6 @@ import { BiLinkExternal } from 'react-icons/bi';
 import Image from "next/image";
 
 const Lists = () => {
-  // TODO: fetch playlists from backend
   const [lists, setLists] = useState([]);
 
   const getLists = async () => {
@@ -16,7 +15,6 @@ const Lists = () => {
       }
     });
     const data = await response.json();
-    console.log(data);
 
     if (response.status === 200) {
       setLists(data);
