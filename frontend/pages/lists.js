@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { subMinutes } from "date-fns";
 import VideoCard from "../components/VideoCard";
 import { BiLinkExternal } from 'react-icons/bi';
@@ -6,70 +6,26 @@ import Image from "next/image";
 
 const Lists = () => {
   // TODO: fetch playlists from backend
-  const [lists, setLists] = useState([
-    {
-      id: 1,
-      name: 'Spoko cardio',
-      link: 'https://www.youtube.com/playlist?list=RDCLAK5uy_lBNUteBRencHzKelu5iDHwLF6mYqjL-JU&playnext=1&index=1',
-      videos: [
-        {
-          link: 'https://youtu.be/VaZU37y2T_Q',
-          thumbnail: 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
-          title: 'Dlaczego liście tak robią?', 
-          duration: '18:33', 
-          uploadTime: subMinutes(new Date(), 65), 
-          channelName: 'Uwaga! Naukowy bełkot', 
-          channelAvatar: 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
-          isWatched: false, 
-          isHidden: false 
-        },
-        {
-          link: 'https://youtu.be/VaZU37y2T_Q',
-          thumbnail: 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
-          title: 'Dlaczego liście tak robią?', 
-          duration: '18:33', 
-          uploadTime: subMinutes(new Date(), 65), 
-          channelName: 'Uwaga! Naukowy bełkot', 
-          channelAvatar: 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
-          isWatched: false, 
-          isHidden: false 
-        },
-        {
-          link: 'https://youtu.be/VaZU37y2T_Q',
-          thumbnail: 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
-          title: 'Dlaczego liście tak robią?', 
-          duration: '18:33', 
-          uploadTime: subMinutes(new Date(), 65), 
-          channelName: 'Uwaga! Naukowy bełkot', 
-          channelAvatar: 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
-          isWatched: false, 
-          isHidden: false 
-        },
-        {
-          link: 'https://youtu.be/VaZU37y2T_Q',
-          thumbnail: 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
-          title: 'Dlaczego liście tak robią?', 
-          duration: '18:33', 
-          uploadTime: subMinutes(new Date(), 65), 
-          channelName: 'Uwaga! Naukowy bełkot', 
-          channelAvatar: 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
-          isWatched: false, 
-          isHidden: false 
-        },
-        {
-          link: 'https://youtu.be/VaZU37y2T_Q',
-          thumbnail: 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
-          title: 'Dlaczego liście tak robią?', 
-          duration: '18:33', 
-          uploadTime: subMinutes(new Date(), 65), 
-          channelName: 'Uwaga! Naukowy bełkot', 
-          channelAvatar: 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
-          isWatched: false, 
-          isHidden: false 
-        }
-      ]
-    },
-  ]);
+  const [lists, setLists] = useState([]);
+
+  const getLists = async () => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lists/`, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+      }
+    });
+    const data = await response.json();
+    console.log(data);
+
+    if (response.status === 200) {
+      setLists(data);
+    }
+  }
+
+  useEffect(() => {
+    getLists();
+  }, []);
 
   if (lists.length === 0) {
     return (

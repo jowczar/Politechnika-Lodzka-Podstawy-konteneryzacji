@@ -347,21 +347,85 @@ def get_all_videos_from_channel(request):
     return HttpResponse("kej")
 
 def lists(request):
-    credentials = dbname.User_credentials.find({token_uri: })
-    for cred in credentials:
-        print()
-    cred['token_uri']
-    link = "https://oauth2.googleapis.com/token"
-    query = {}
-    query[]
-    if User_credentials.find():
-        print("znalazło")
-    else:
-        print("nope")
+    lists = [
+        {
+            'id': 1,
+            'name': 'Spoko cardio',
+            'link': 'https://www.youtube.com/playlist?list=RDCLAK5uy_lBNUteBRencHzKelu5iDHwLF6mYqjL-JU&playnext=1&index=1',
+            'videos': [
+            {
+                'link': 'https://youtu.be/VaZU37y2T_Q',
+                'thumbnail': 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
+                'title': 'Dlaczego liście tak robią?', 
+                'duration': '18:33', 
+                'uploadTime': '2011-10-05T14:48:00.000Z', 
+                'channelName': 'Uwaga! Naukowy bełkot', 
+                'channelAvatar': 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
+                'isWatched': False, 
+                'isHidden': False 
+            },
+            {
+                'link': 'https://youtu.be/VaZU37y2T_Q',
+                'thumbnail': 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
+                'title': 'Dlaczego liście tak robią?', 
+                'duration': '18:33', 
+                'uploadTime': '2011-10-05T14:48:00.000Z', 
+                'channelName': 'Uwaga! Naukowy bełkot', 
+                'channelAvatar': 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
+                'isWatched': False, 
+                'isHidden': False 
+            },
+            {
+                'link': 'https://youtu.be/VaZU37y2T_Q',
+                'thumbnail': 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
+                'title': 'Dlaczego liście tak robią?', 
+                'duration': '18:33', 
+                'uploadTime': '2011-10-05T14:48:00.000Z', 
+                'channelName': 'Uwaga! Naukowy bełkot', 
+                'channelAvatar': 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
+                'isWatched': False, 
+                'isHidden': False 
+            },
+            {
+                'link': 'https://youtu.be/VaZU37y2T_Q',
+                'thumbnail': 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
+                'title': 'Dlaczego liście tak robią?', 
+                'duration': '18:33', 
+                'uploadTime': '2011-10-05T14:48:00.000Z', 
+                'channelName': 'Uwaga! Naukowy bełkot', 
+                'channelAvatar': 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
+                'isWatched': False, 
+                'isHidden': False 
+            },
+            {
+                'link': 'https://youtu.be/VaZU37y2T_Q',
+                'thumbnail': 'https://i.ytimg.com/vi/VaZU37y2T_Q/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLA7rqrDHuHKdpNda2RHn2k2pCAQUw', 
+                'title': 'Dlaczego liście tak robią?', 
+                'duration': '18:33', 
+                'uploadTime': '2011-10-05T14:48:00.000Z', 
+                'channelName': 'Uwaga! Naukowy bełkot', 
+                'channelAvatar': 'https://yt3.ggpht.com/ArVAdn46mUBoDsd8PV_V4Bpjr8iGdEIbLChyLs2h3949LFhogNJUt9qcSTDDiVk1jHozFaElKtA=s176-c-k-c0x00ffffff-no-rj', 
+                'isWatched': False, 
+                'isHidden': False 
+            }
+        ]
+    }]
+    return JsonResponse(lists, safe=False)
 
-    # for t in x:
-    #     print(t['token'])
-    return HttpResponse("lists ok")
+    # credentials = dbname.User_credentials.find({'token_uri': 'asd' })
+    # for cred in credentials:
+    #     print()
+    # cred['token_uri']
+    # link = "https://oauth2.googleapis.com/token"
+    # query = {}
+    # if User_credentials.find():
+    #     print("znalazło")
+    # else:
+    #     print("nope")
+
+    # # for t in x:
+    # #     print(t['token'])
+    # return HttpResponse("lists ok")
 
 def groups(request):
 
