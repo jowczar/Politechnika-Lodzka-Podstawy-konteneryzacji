@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+
+  mongo:
+    image: mongo
+    container_name: yt-manager-database
+    restart: always
+    env_file: .env
+    environment: 
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=${MONGO_DB_NAME}
+      - MONGO_INITDB_USERNAME=${MONGO_DB_USERNAME}
+      - MONGO_INITDB_PASSWORD=${MONGO_DB_PASSWORD}
+    volumes:
+      - ${PWD}/_data/mongo:/data/db
+      - ${PWD}/docker/_mongo/fixtures:/import
+      - ${PWD}/docker/_mongo/scripts/init.sh:/docker-entrypoint-initdb.d/setup.sh
+    ports:
+      - 27017:27017
+
+  backend:
+    build: ./backend
+    image: yt-manager-backend:latest
+    container_name: yt-manager-backend
+    restart: always
+    env_file: .env
+    volumes:
+      - ${PWD}/backend:/app
+    ports:
+      - 8080:8000
+
+  frontend:
+    build: ./frontend
+    image: yt-manager-frontend:latest
+    container_name: yt-manager-frontend
+    restart: always
+    env_file: .env
+    volumes:
+      - ${PWD}/frontend:/app
+    ports:
+      - 3030:3000
+
+networks:
+  default:
