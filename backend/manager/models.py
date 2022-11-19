@@ -1,4 +1,4 @@
-from django.db import models, migrations
+# from django.db import models, migrations
 
 # class User_credentials(models.Model):
 #     token = models.CharField(max_length=250)

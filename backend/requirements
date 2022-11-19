@@ -5,3 +5,4 @@ djongo
 google-api-python-client
 google-auth-oauthlib
 pytz
+django-mongo-sessions

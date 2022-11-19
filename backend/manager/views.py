@@ -27,6 +27,7 @@ my_client = pymongo.MongoClient(connect_string)
 dbname = my_client['mongo-db']
 
 
+User_credentials = dbname["User_credentials"]
 
 
 
@@ -88,15 +89,17 @@ def g_auth_endpoint(request):
     # print(credentials)
     request.session['id_token'] = credentials.id_token
 
-    # temp = {
-    #     'token': credentials.token,
-    #     'refresh_token': credentials.refresh_token,
-    #     'id_token':credentials.id_token,
-    #     'token_uri': credentials.token_uri,
-    #     'client_id': credentials.client_id,
-    #     'client_secret': credentials.client_secret,
-    #     'scopes': credentials.scopes
-    # }
+    credentials = {
+        'token': credentials.token,
+        'refresh_token': credentials.refresh_token,
+        'id_token':credentials.id_token,
+        'token_uri': credentials.token_uri,
+        'client_id': credentials.client_id,
+        'client_secret': credentials.client_secret,
+        'scopes': credentials.scopes
+    }
+    User_credentials.insert(credentials)
+    User_credentials.find({token_uri})
     # print(temp)
     # if not User_credentials.objects.get(id_token = credentials.id_token):
         # s = User_credentials(
@@ -109,16 +112,16 @@ def g_auth_endpoint(request):
         #     scopes = credentials.scopes
         # )
         # s.save()
-    s = User_credentials(
-        token = credentials.token,
-        refresh_token =  credentials.refresh_token,
-        id_token = credentials.id_token,
-        token_uri = credentials.token_uri,
-        client_id = credentials.client_id,
-        client_secret = credentials.client_secret,
-        scopes = credentials.scopes
-    )
-    s.save()
+    # s = User_credentials(
+    #     token = credentials.token,
+    #     refresh_token =  credentials.refresh_token,
+    #     id_token = credentials.id_token,
+    #     token_uri = credentials.token_uri,
+    #     client_id = credentials.client_id,
+    #     client_secret = credentials.client_secret,
+    #     scopes = credentials.scopes
+    # )
+    # s.save()
 
     
     return HttpResponse("<script>alert('success');location.href = 'http://127.0.0.1:8000/channels/'</script>")
@@ -127,24 +130,27 @@ def channels(request):
     api_service_name = "youtube"
     api_version = "v3"
     new_id_token = request.session['id_token']
-    base_id_token = User_credentials.objects.get(id_token = new_id_token)
+    print("new token >>>>>", new_id_token)
+
+    credentials = User_credentials.find()
+    
+
     # print("BASE TOKEN ===>")
     # print(base_id_token.id_token)
     # print("NEW TOKEN ===>")
     # print(new_id_token)
-    if new_id_token == base_id_token.id_token:
-        cred = User_credentials.objects.get(id_token = new_id_token)
-        # print("it is a mach")
-        # print(cred)
-        temp = {
-            'token': cred.token,
-            'refresh_token': cred.refresh_token,
-            'id_token':cred.id_token,
-            'token_uri': cred.token_uri,
-            'client_id': cred.client_id,
-            'client_secret': cred.client_secret,
-            'scopes': cred.scopes
-            }
+
+    if User_credentials.find({token: new_id_token}):
+        for cred in credential:
+            temp = {
+                'token': cred['token'],
+                'refresh_token': cred['refresh_token'],
+                'id_token':cred['id_token'],
+                'token_uri': cred['token_uri'],
+                'client_id': cred['client_id'],
+                'client_secret': cred['client_secret'],
+                'scopes': cred['scopes']
+                }
         # print("FUNCKING TEMP ===>")
         # print(temp)
         credentials = google.oauth2.credentials.Credentials(**temp)
@@ -340,17 +346,21 @@ def get_all_videos_from_channel(request):
     # return render(request, {"data": data})
     return HttpResponse("kej")
 
-@transaction.atomic
 def lists(request):
-    p1 = Author(name = "Joe")
-    p1.save()
-    e1 = Entry(
-        title = "QWE"
+    credentials = dbname.User_credentials.find({token_uri: })
+    for cred in credentials:
+        print()
+    cred['token_uri']
+    link = "https://oauth2.googleapis.com/token"
+    query = {}
+    query[]
+    if User_credentials.find():
+        print("znalazło")
+    else:
+        print("nope")
 
-    )
-    e1.save()
-    e1.authors.add(Author.objects.get(name="Joe"))
-
+    # for t in x:
+    #     print(t['token'])
     return HttpResponse("lists ok")
 
 def groups(request):
